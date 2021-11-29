@@ -1,30 +1,44 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
+const express = require("express");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
 
 const PORT = 4000;
+const app = express();
+// express()
 
-express()
-  .use(function(req, res, next) {
-    res.header(
-      'Access-Control-Allow-Methods',
-      'OPTIONS, HEAD, GET, PUT, POST, DELETE'
-    );
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-  })
-  .use(morgan('tiny'))
-  .use(express.static('./server/assets'))
-  .use(bodyParser.json())
-  .use(express.urlencoded({ extended: false }))
-  .use('/', express.static(__dirname + '/'))
+app.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, HEAD, GET, PUT, POST, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+app.use(morgan("tiny"));
+app.use(express.static("./server/assets"));
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use("/", express.static(__dirname + "/"));
 
-  // REST endpoints?
-  .get('/bacon', (req, res) => res.status(200).json('🥓'))
+// REST endpoints?
+// api to get all the companies
+app.get("/api/all-companies", getAllCompanies);
+// api to get all the products
+app.get("/api/all-products", getAllProducts);
+//api to get a company by _id
+app.get("/api/company/:id", getCompanyById);
+//api to get a product by _id
+app.get("/api/product/:id", getProductById);
+//api to get all products by category
+app.get("/api/products-by-category/:category", getProductsByCategory);
 
-  .listen(PORT, () => console.info(`Listening on port ${PORT}`));
+//api to get all products in a price category- stretch goal for later
+
+app.get("/bacon", (req, res) => res.status(200).json("🥓"));
+
+app.listen(PORT, () => console.info(`Listening on port ${PORT}`));
