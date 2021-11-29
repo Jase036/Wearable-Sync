@@ -28,3 +28,7 @@ Once the lead merges the PR, the rest of the team can now pull your changes into
 If you happen to work in some of the same files as a teammate, you will probably have conflicts. Use the VS Code UI to navigate these and resolve them. _If you get into weird state and start to panic, see someone, say something._
 
 https://www.neonscience.org/git-setup-remote
+
+## Extra Guide
+
+- [Sadnan's Git Notes repo](https://github.com/SSaquif/git-notes)
