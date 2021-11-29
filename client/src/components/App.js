@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CatalogRender from './CatalogRender';
 
 
 
@@ -13,6 +14,8 @@ function App() {
 
   return( <>
   <div>{bacon ? bacon : `...where's my stuff?...`}</div>
+  <CatalogRender></CatalogRender>
+  
   </>
   );
 }
