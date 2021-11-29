@@ -35,7 +35,7 @@ const getAllProducts = async (req, res) => {
   }
 };
 const getCompanyById = async (req, res) => {
-  const { _id } = req.params;
+  const _id = Number(req.params._id);
   try {
     await client.connect();
     const companyById = await db
@@ -58,7 +58,7 @@ const getCompanyById = async (req, res) => {
   }
 };
 const getProductById = async (req, res) => {
-  const { _id } = req.params;
+  const _id = Number(req.params._id);
   try {
     await client.connect();
     const productById = await db.collection("items").findOne({ _id });
@@ -76,9 +76,32 @@ const getProductById = async (req, res) => {
     client.close();
   }
 };
+const getProductsByCategory = async (req, res) => {
+  const category = req.params.category;
+  console.log(typeof category);
+  try {
+    await client.connect();
+    const products = await db
+      .collection("items")
+      .find({ category: category })
+      .toArray();
+    if (products) {
+      res.status(200).json({ status: 200, data: products });
+    } else {
+      res
+        .status(404)
+        .json({ status: 404, message: "The product category is not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, error: err.stack });
+  } finally {
+    client.close();
+  }
+};
 module.exports = {
   getAllCompanies,
   getAllProducts,
   getCompanyById,
   getProductById,
+  getProductsByCategory,
 };
