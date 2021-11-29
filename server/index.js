@@ -3,7 +3,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-
+const {
+  getAllCompanies,
+  getAllProducts,
+  getCompanyById,
+  getProductById,
+  getProductsByCategory,
+} = require("./handlers");
 const PORT = 4000;
 const app = express();
 // express()
