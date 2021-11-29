@@ -37,11 +37,11 @@ app.get("/api/all-companies", getAllCompanies);
 // api to get all the products
 app.get("/api/all-products", getAllProducts);
 //api to get a company by _id
-app.get("/api/company/:id", getCompanyById);
+app.get("/api/company/:_id", getCompanyById);
 //api to get a product by _id
-app.get("/api/product/:id", getProductById);
+app.get("/api/product/:_id", getProductById);
 //api to get all products by category
-app.get("/api/products-by-category/:category", getProductsByCategory);
+// app.get("/api/products-by-category/:category", getProductsByCategory);
 
 //api to get all products in a price category- stretch goal for later
 
