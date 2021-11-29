@@ -26,6 +26,7 @@ const getAllProducts = async (req, res) => {
   try {
     await client.connect();
     const productsList = await db.collection("items").find().toArray();
+    console.log("connect")
     // console.log(productsList);
     res.status(200).json({ status: 200, data: productsList });
   } catch (err) {
