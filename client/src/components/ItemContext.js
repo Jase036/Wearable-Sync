@@ -48,15 +48,16 @@ export const ItemProvider = ({ children }) => {
     const [paginationIndex, setPaginationIndex] = useState(0)
     const [state, dispatch] = useReducer(reducer, initialState)
 
+    //the item fetch dispatch function set up for pagination. The existing array is duplicated with spread and the concatenated with the new incoming data.
     const receiveItemInfoFromServer = (data) => {
-        console.log(data)
-        
+            
         dispatch({
             type: "receive-item-info-from-server",
             items: [...state.items].concat(data)
         })
     }
 
+    //Loading state will allow us to use a loading component during async operations in other components
     const setLoadingState = () => {
         
         dispatch({
@@ -65,6 +66,7 @@ export const ItemProvider = ({ children }) => {
         })
     }
 
+    //revert loading state to true when async operations are done
     const unsetLoadingState = () => {
         
         dispatch({
@@ -73,6 +75,7 @@ export const ItemProvider = ({ children }) => {
         })
     }
 
+    //We load the items from DB using pagination
     useEffect(() => {
         const limit=20;
         let skip= 20 * paginationIndex;
