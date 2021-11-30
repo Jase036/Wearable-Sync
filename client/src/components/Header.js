@@ -5,14 +5,23 @@ import wearableLogo from "../assets/wearable-logo.png"
 import LoginButton from "./Login/LoginButton";
 import NavMenu from "./NavMenu/NavMenu";
 
+
+//children
+import Cart from "./Navbar/Cart";
+
 const Header = () => {
 
     return (
         <HeaderWrapper>
             <NavMenu />
             <Logo alt="Wearable Sync logo" src={wearableLogo}/>
+<<<<<<< Updated upstream
             <div><LoginButton /> Search + Cart</div>
             
+=======
+            <div>Search </div>
+            <Cart/>
+>>>>>>> Stashed changes
         </HeaderWrapper>
     )
 }
