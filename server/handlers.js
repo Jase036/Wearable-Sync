@@ -1,5 +1,5 @@
 "use strict";
-const { ListItemSecondaryAction } = require("@material-ui/core");
+
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -24,28 +24,14 @@ const getAllCompanies = async (req, res) => {
 
   try {
     await client.connect();
-<<<<<<< Updated upstream
     const companiesList = await db.collection("companies").find().skip(skip).limit(limit).toArray();
     
-=======
-    const companiesList = await db.collection("companies").find().toArray();
-
->>>>>>> Stashed changes
     client.close();
 
     if (companiesList.length !== 0) {
       res.status(200).json({ status: 200, data: companiesList });
-<<<<<<< Updated upstream
-      } else {
-        res.status(404).json({ status: 404, error: err.message });
-      }
-
-    } catch (err) {
-      res.status(500).json({ status: 500, error: err.message });
-=======
     } else {
       res.status(404).json({ status: 404, error: err.message });
->>>>>>> Stashed changes
     }
   } catch (err) {
     res.status(500).json({ status: 500, error: err.message });
@@ -149,52 +135,53 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const addNewCustomer = async (req, res) => {
-  const { firstName, lastName, address, phoneNumber, email, purchaseInfo } =
+  
+  const { firstName, lastName, address, phoneNumber, email} =
     req.body;
-  console.log(purchaseInfo);
+  
+    const newPurchase = req.body.purchaseInfo
+  console.log(newPurchase)
+    
+  
   try {
     await client.connect();
     console.log("connected");
+    
     const customersList = await db.collection("customers").find().toArray();
-    // console.log("customer list:", customersList);
-
-    // const isExistingCustomer = customersList.find((customer) => {
-    //   console.log("from within the find method:", customer);
-    //   return (
-    //     customer.email === email ||
-    //     (customer.firstName === firstName &&
-    //       customer.lastName === lastName &&
-    //       customer.address === address)
-    //   );
-    // });
-
-    const isExistingCustomer = customersList.includes(email);
-    console.log("isexistingcustomer:", isExistingCustomer);
-    if (isExistingCustomer) {
+        
+    if (customersList.filter(e => e.email === email).length > 0) {
+      
       const updateStock = await db.collection("items").updateOne(
-        { _id: purchaseInfo._id },
+        { _id: Number(newPurchase._id) },
         {
-          $set: {
-            "items.numInStock": 6,
+          $inc: {
+            "numInStock": -newPurchase.quantity,
           },
         }
       );
+        console.log(updateStock);
+
       const updatePurchaseInfo = await db
         .collection("customers")
         .updateOne(
-          { email: customer.email },
-          { $set: { "customers.purchaseInfo": { ...purchaseInfo } } }
-        );
+          { email: email },
+          { $push: { "purchaseInfo": {...newPurchase, purchaseId: uuidv4()} } })
+        
+        
+        console.log(updatePurchaseInfo)
+      res.status(200).json({ status: 200, data: updatePurchaseInfo});
+
     } else {
+      
       const _id = uuidv4();
       const newEntry = await db
         .collection("customers")
-        .insertOne({ _id: _id, ...req.body });
+        .insertOne({ _id: _id, purchaseInfo: [{...newPurchase, "purchaseId": uuidv4()}] });
 
       res.status(200).json({ status: 200, data: newEntry });
     }
   } catch (err) {
-    console.log(err.message);
+    console.log(err.stack);
     res.status(500).json({ status: 500, error: err.message });
   }
 };
