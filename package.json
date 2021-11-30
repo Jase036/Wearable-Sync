@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "morgan": "^1.10.0",
-    "styled-components": "^5.3.3"
-  }
-}

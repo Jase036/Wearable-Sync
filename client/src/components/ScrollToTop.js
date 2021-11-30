@@ -30,7 +30,7 @@ export default function ScrollToTop() {
     <div>
       {isVisible && 
         <div onClick={scrollToTop}>
-         <FiArrowUpCircle size={24} />
+         <FiArrowUpCircle size={55} style={{cursor: "pointer"}} />
         </div>}
     </div>
   );

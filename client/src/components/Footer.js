@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-// import { LoremIpsum, Avatar, loremIpsum } from "react-lorem-ipsum";
 import ScrollToTop from "./ScrollToTop";
-
+import LogoutButton from "./Login/LogoutButton";
+import { BsFacebook, BsTwitter, BsReddit } from "react-icons/bs";
+import { SiTiktok } from "react-icons/si";
 const Footer = () => {
   return (
     <>
@@ -11,9 +12,17 @@ const Footer = () => {
         <div>
           Wearable Sync 2021<span>&#8482;</span>
         </div>
-        <AboutUs to={"/about"}>About us</AboutUs>
-        <ContactUs to={"/contact"}>Contact us</ContactUs>
-        <ScrollToTop />
+        <AboutUs to={"/about"}>About Us</AboutUs>
+        <SocialContainer>
+          <BsFacebook size={32} />
+          <BsTwitter size={32} />
+          <BsReddit size={32} />
+          <SiTiktok size={32} />
+        </SocialContainer>
+        <LogoutButton />
+        <Scroll>
+          <ScrollToTop />
+        </Scroll>
       </Wrapper>
     </>
   );
@@ -22,7 +31,7 @@ const Footer = () => {
 const Wrapper = styled.div`
   /* position: sticky;
   bottom: 10px; */
-  width: 100%;
+  /* width: 100%; */
   align-items: center;
   display: flex;
   justify-content: space-around;
@@ -31,15 +40,34 @@ const Wrapper = styled.div`
   font-weight: 700;
   color: white;
   background-color: var(--cool-gray);
+  height: 100px;
+  font-size: 30px;
 `;
 
 const AboutUs = styled(NavLink)`
   text-decoration: none;
   color: white;
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
+  }
 `;
 
-const ContactUs = styled(NavLink)`
+const SocialContainer = styled.div`
+  display: flex;
+  width: 200px;
+  justify-content: space-evenly;
+  cursor: pointer;
+`;
+
+const Scroll = styled.button`
   text-decoration: none;
+  background-color: var(--cool-gray);
+  border: none;
   color: white;
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
+  }
 `;
 export default Footer;
