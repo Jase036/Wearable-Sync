@@ -1,27 +1,31 @@
 import React from "react";
 import styled from "styled-components";
+import Footer from "./Footer";
+import Header from "./Header";
 const About = () => {
   return (
+      <>
+      <Header />
     <Wrapper>
       <AboutImage src={"../images/about-image.jpg"} />
       <AboutContainer>
         <AboutUs>About Us</AboutUs>
-        <Header>Our story</Header>
+        <Headers>Our story</Headers>
         <Paragraph>
           Wearable Sync was founded in 2021 by a team of web developers from
           across Canada who attended the Concordia University Bootcamp.
         </Paragraph>
-        <Header>Our mission</Header>
+        <Headers>Our mission</Headers>
         <Paragraph>
           We strive to offer our customers the lowest possible prices, the best
           available selection, and the utmost convenience.
         </Paragraph>
-        <Header>Our vision</Header>
+        <Headers>Our vision</Headers>
         <Paragraph>
           To be the most customer-centric company, where customers can find and
           discover the latest wearable technology.
         </Paragraph>
-        <Header>Meet the team</Header>
+        <Headers>Meet the team</Headers>
         <TeamImageContainer>
           <div>
             <img src={"../images/jace.png"} />
@@ -46,6 +50,8 @@ const About = () => {
         </TeamImageContainer>
       </AboutContainer>
     </Wrapper>
+    <Footer />
+    </>
   );
 };
 const Wrapper = styled.div`
@@ -53,6 +59,7 @@ const Wrapper = styled.div`
   font-family: var(--font-family);
   position: relative;
   background-color: var(--sage);
+  padding-top: 95px;
 `;
 
 const AboutContainer = styled.div`
@@ -63,7 +70,7 @@ const AboutContainer = styled.div`
   left: 700px;
   /* height: 450px; */
   width: 650px;
-  top: 25px;
+  top: 100px;
 `;
 
 const AboutUs = styled.h1`
@@ -80,7 +87,7 @@ const AboutImage = styled.img`
   border-radius: 5px;
 `;
 
-const Header = styled.h2`
+const Headers = styled.h2`
   text-align: center;
   padding-bottom: 20px;
 `;
