@@ -30,7 +30,7 @@ const CatalogRender = () => {
                 <Para>{item.name}</Para>
                 <ProductImg alt="product" src={item.imageSrc} />
                 <Overlay>
-                  <div>Add to cart</div>
+                  <Button>Add to cart</Button>
                 </Overlay>
               </ProductContainer>
             );
@@ -46,8 +46,19 @@ const CatalogRender = () => {
   }
 };
 
+
+const Button = styled.button`
+
+cursor:pointer;
+height:20px;
+
+
+` 
+
+
 const Overlay = styled.div`
   position: absolute;
+  display:flex;
   top: 0;
   bottom: 0;
   left: 0;
@@ -55,10 +66,10 @@ const Overlay = styled.div`
   height: 100%;
   width: 100%;
   padding: 50px;
-  opacity: 0;
   z-index: 99;
   transition: 0.5s ease;
-  background-color: var(--dusty-rose);
+  background-color: rgb(211, 186, 177, 0);
+  border-radius:20px;
 `;
 
 const Para = styled.p`
@@ -84,7 +95,7 @@ const ProductContainer = styled.div`
   position: relative;
 
   &:hover div {
-      opacity: 0.5;
+    background-color: rgb(211, 186, 177, 0.5);
     }
   
 `;
