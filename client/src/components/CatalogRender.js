@@ -1,41 +1,42 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { ItemContext } from "./ItemContext";
+import LoadingSpinner from "./LoadingSpinner"
 
 const CatalogRender = () => {
-    const [loading, setLoading] = useState ("idle")
-    const {state, receiveItemInfoFromServer} = useContext (ItemContext)
-    console.log (state)
+    const {state, paginationIndex, setPaginationIndex} = useContext (ItemContext)
+    console.log (state.hasLoaded)
 
-    useEffect(() => {
-        setLoading('loading')
-        fetch('/api/all-products?start=0&limit=20')
-          .then(res => res.json())
-          .then(data => {
-            if (data.status !== 200) {
-              console.log(data)  
-            } else {
-                receiveItemInfoFromServer(data.data);
-            setLoading('idle')}});
-      }, []); 
+    const handlePaginationClick = () => {
+        setPaginationIndex(paginationIndex + 1)
+    }
 
-
-      if (loading === "loading") {
-          return <p>Loading...</p>
-      } else {
+    if (!state.hasLoaded) {
+        return (
+            <Wrapper>
+                <LoadingSpinner />
+            </Wrapper>
+        )
+    } else {
         
     return (
-        <Wrapper>hi
-        {/* {state.items.map((item => {
-            return(
-                    <ProductContainer key={item._id}>
-                        <p>{item.name}</p>
-                        <ProductImg alt="product" src={item.imageSrc} />
-                    </ProductContainer>
-            )
-        }))} */}
-        </Wrapper>
-        
+        <>
+            <Wrapper>
+            {state.items.map((item => {
+                return(
+                        <ProductContainer key={item._id}>
+                            <p>{item.name}</p>
+                            <ProductImg alt="product" src={item.imageSrc} />
+                        </ProductContainer>
+                )
+            }))}
+            </Wrapper>
+                <PaginationContainer>    
+                    <PaginationButton onClick={handlePaginationClick}>
+                        Load More
+                    </PaginationButton>
+                </PaginationContainer>
+        </>
     )
     }
 }
@@ -44,6 +45,8 @@ const CatalogRender = () => {
 const Wrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
 `
 const ProductContainer = styled.div`
     width: 200px;
@@ -54,5 +57,14 @@ const ProductImg = styled.img`
     max-width: 100%;
     max-height: 100%;
     
+`
+const PaginationContainer = styled.div`
+    padding: 10px;
+    display:flex;
+    justify-content: center;
+`
+const PaginationButton = styled.button`
+    padding: 10px;
+    border-radius: 10px;
 `
 export default CatalogRender;
