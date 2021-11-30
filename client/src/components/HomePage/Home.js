@@ -1,12 +1,14 @@
 import React from "react";
 import Header from "../Header";
 import CatalogRender from "../CatalogRender";
-import Footer from "../Footer";
+
 
 
 
 //children
 import Banner from "./Banner";
+import Product from "./Product";
+import Footer from "../Footer";
 
 //styling
 import styled from "styled-components";
@@ -20,7 +22,6 @@ return(
         <CatalogRender />
         <Footer />
     </>
-
 
 )
 
