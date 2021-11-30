@@ -4,7 +4,7 @@ export const ItemContext = createContext(null);
 
 const initialState = {
     hasLoaded: false, 
-    items: null, 
+    items: [], 
     category: null, 
     price: null, 
     companies: null, 
@@ -35,9 +35,11 @@ export const ItemProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const receiveItemInfoFromServer = (data) => {
+        console.log(data)
+        
         dispatch({
             type: "receive-item-info-from-server",
-            ...data, 
+            items: [...data]
         })
     }
 
@@ -45,10 +47,9 @@ export const ItemProvider = ({ children }) => {
     return (
             <ItemContext.Provider value={{
                 state,
-                actions: {
-                    receiveItemInfoFromServer,
-                },
-            }}>
+                receiveItemInfoFromServer,
+                }}
+            >
                 {children}
             </ItemContext.Provider>
     )
