@@ -23,7 +23,7 @@ const getAllCompanies = async (req, res) => {
 
   try {
     await client.connect();
-    const companiesList = await db.collection("companies").find().toArray();
+    const companiesList = await db.collection("companies").find().skip(skip).limit(limit).toArray();
     
     client.close();
 
