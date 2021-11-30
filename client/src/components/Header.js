@@ -15,13 +15,8 @@ const Header = () => {
         <HeaderWrapper>
             <NavMenu />
             <Logo alt="Wearable Sync logo" src={wearableLogo}/>
-<<<<<<< Updated upstream
-            <div><LoginButton /> Search + Cart</div>
+            <div><LoginButton /> Search <Cart/></div>
             
-=======
-            <div>Search </div>
-            <Cart/>
->>>>>>> Stashed changes
         </HeaderWrapper>
     )
 }
