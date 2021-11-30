@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import wearableLogo from "../assets/wearable-logo.png"
+import LoginButton from "./Login/LoginButton";
 
 const Header = () => {
 
@@ -9,7 +10,8 @@ const Header = () => {
         <HeaderWrapper>
             <div>Nav Menu</div>
             <Logo alt="Wearable Sync logo" src={wearableLogo}/>
-            <div>Search + Cart</div>
+            <div><LoginButton /> Search + Cart</div>
+            
         </HeaderWrapper>
     )
 }

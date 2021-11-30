@@ -28,7 +28,7 @@ const getAllCompanies = async (req, res) => {
     client.close();
 
     if (companiesList.length !== 0) {
-      res.status(200).json({ status: 200, data: productsList });
+      res.status(200).json({ status: 200, data: companiesList });
       } else {
         res.status(404).json({ status: 404, error: err.message });
       }
