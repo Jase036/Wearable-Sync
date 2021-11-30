@@ -1,11 +1,30 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
+import React, { useContext, useEffect} from "react";
+
 import { ItemContext } from "./ItemContext";
 import LoadingSpinner from "./LoadingSpinner";
 
+
+
+//styling
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 const CatalogRender = () => {
-  const { state, paginationIndex, setPaginationIndex } =
-    useContext(ItemContext);
+  const { state, paginationIndex, setPaginationIndex} =
+  useContext(ItemContext);
+
+
+
+  
+
+
+
+  const handleClick = (item) =>{
+
+  localStorage.setItem("product-id", "value")
+     
+
+  }
 
   //We add one to the pagination index, this will cause a fetch and re-render.
   const handlePaginationClick = () => {
@@ -30,7 +49,9 @@ const CatalogRender = () => {
                 <Para>{item.name}</Para>
                 <ProductImg alt="product" src={item.imageSrc} />
                 <Overlay>
-                  <Button>Add to cart</Button>
+                  {item.numInStock !==0 ? 
+                  <Button onClick={()=>{handleClick(item)}}  >Add to cart</Button> :
+                  <p>Out of stuck</p>}
                 </Overlay>
               </ProductContainer>
             );
