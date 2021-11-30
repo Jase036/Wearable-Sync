@@ -7,7 +7,6 @@ import CatalogRender from "../CatalogRender";
 
 //children
 import Banner from "./Banner";
-import Product from "./Product";
 import Footer from "../Footer";
 
 //styling
