@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { ItemContext } from "./ItemContext";
 import LoadingSpinner from "./LoadingSpinner"
 
 const CatalogRender = () => {
     const {state, paginationIndex, setPaginationIndex} = useContext (ItemContext)
-    console.log (state.hasLoaded)
-
+    
+    //We add one to the pagination index, this will cause a fetch and re-render.
     const handlePaginationClick = () => {
         setPaginationIndex(paginationIndex + 1)
     }
 
+    //Our loading spinner component runs until the async fetch in the item context is complete.
     if (!state.hasLoaded) {
         return (
             <Wrapper>

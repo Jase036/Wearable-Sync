@@ -6,9 +6,7 @@ import Globalstyles from "./Globalstyles";
 
 //children
 import Home from "./HomePage/Home";
-import Footer from "./Footer";
 
-import CatalogRender from './CatalogRender';
 
 
 
