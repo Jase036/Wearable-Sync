@@ -3,12 +3,13 @@ import styled from "styled-components";
 
 import wearableLogo from "../assets/wearable-logo.png"
 import LoginButton from "./Login/LoginButton";
+import NavMenu from "./NavMenu/NavMenu";
 
 const Header = () => {
 
     return (
         <HeaderWrapper>
-            <div>Nav Menu</div>
+            <NavMenu />
             <Logo alt="Wearable Sync logo" src={wearableLogo}/>
             <div><LoginButton /> Search + Cart</div>
             
