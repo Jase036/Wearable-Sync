@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
+import { ItemContext } from "./ItemContext";
 
 const CatalogRender = () => {
     const [loading, setLoading] = useState ("idle")
-    const [items, setItems] = useState ([])
+    const {state, receiveItemInfoFromServer} = useContext (ItemContext)
+    console.log (state)
 
     useEffect(() => {
         setLoading('loading')
-        fetch('/api/all-products')
+        fetch('/api/all-products?start=0&limit=20')
           .then(res => res.json())
           .then(data => {
             if (data.status !== 200) {
               console.log(data)  
             } else {
-            setItems(data.data);
+                receiveItemInfoFromServer(data.data);
             setLoading('idle')}});
       }, []); 
 
@@ -23,15 +25,15 @@ const CatalogRender = () => {
       } else {
         
     return (
-        <Wrapper>
-        {items?.map((item => {
+        <Wrapper>hi
+        {/* {state.items.map((item => {
             return(
                     <ProductContainer key={item._id}>
                         <p>{item.name}</p>
                         <ProductImg alt="product" src={item.imageSrc} />
                     </ProductContainer>
             )
-        }))}
+        }))} */}
         </Wrapper>
         
     )

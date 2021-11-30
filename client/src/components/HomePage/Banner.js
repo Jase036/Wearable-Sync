@@ -10,17 +10,13 @@ const Banner = () => {
     <>
       <BkgImg />
       <Intro>
-        <Carousel focusOnSelect={true} itemsToShow={1}>
+        <StyledCarousel focusOnSelect={true} itemsToShow={1}>
           <div>
             <Para>
               <span>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry.
               </span>
-              <br />
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
             </Para>
             <Button>Shop Now</Button>
           </div>
@@ -31,14 +27,10 @@ const Banner = () => {
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry.
               </span>
-              <br />
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
             </Para>
             <Button>Shop Now</Button>
           </div>
-        </Carousel>
+        </StyledCarousel>
       </Intro>
     </>
   );
@@ -52,7 +44,7 @@ export default Banner;
 const Button = styled.button`
   margin-top: 30px;
   background: none;
-  padding: 20px 40px;
+  padding: 20px 20px;
   border-radius: 10px;
   border: solid var(--sage) 2px;
   display: block;
@@ -61,7 +53,6 @@ const Button = styled.button`
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 20px;
-  pointer:cursor;
   cursor: pointer;
 
   transition: 400ms ease;
@@ -89,7 +80,8 @@ const Intro = styled.div`
   background-color: rgb(121, 128, 138, 0.7);
   top: 200px;
   left: 200px;
-  width: 600px;
+  width: 400px;
+  height: 400px;
   padding: 50px;
   border-radius: 10px;
 `;
@@ -97,7 +89,14 @@ const Intro = styled.div`
 const BkgImg = styled.div`
   margin: 0px;
   background-image: url(${banner});
-  min-height: 100vh;
+  min-height: 50vh;
   background-size: cover;
   position: relative;
 `;
+
+const StyledCarousel = styled(Carousel)`
+
+&.rec-arrow :hover {
+  background-color: var(--sage);
+}
+`
