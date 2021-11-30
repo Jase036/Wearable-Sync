@@ -6,7 +6,8 @@ import styled, {keyframes} from "styled-components";
 
 
 const LoadingSpinner = () => {
-  return (<Spinner>
+  return (
+    <Spinner>
       <div></div>
       <div></div>
       <div></div>

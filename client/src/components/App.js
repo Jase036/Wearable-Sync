@@ -16,22 +16,17 @@ import CatalogRender from './CatalogRender';
 function App() {
   return (
       <>
-    <BrowserRouter>
-      <Globalstyles/>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-    <BrowserRouter>
-      <Globalstyles/>
+        <BrowserRouter>
+          <Globalstyles/>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+
         
-  <CatalogRender></CatalogRender>
-        <Footer />;
-        </BrowserRouter>
+            </Switch>
+            </BrowserRouter>
     
-          {/* add more here */}
-        </Switch>
-    </BrowserRouter>
       </>
   );
 }

@@ -1,4 +1,6 @@
 import React from "react";
+import CatalogRender from "../CatalogRender";
+import Footer from "../Footer";
 
 
 
@@ -8,12 +10,14 @@ import Banner from "./Banner";
 //styling
 import styled from "styled-components";
 
+
 const Home = () =>{
 return(
-<>
-<Banner/>
-
-</>
+    <>
+        <Banner/>
+        <CatalogRender />
+        <Footer />
+    </>
 
 
 )
