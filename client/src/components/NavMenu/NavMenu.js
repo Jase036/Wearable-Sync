@@ -28,9 +28,7 @@ const NavMenu = () => {
         console.log(category)
     }
 
-    if (!state.hasLoaded) {
-        return <p>Loading</p>
-    } else {
+    
     return (
         <Wrapper>
             <NavMenuLink to='/'>Home</NavMenuLink>
@@ -39,7 +37,7 @@ const NavMenu = () => {
             <DropDownHeader onClick={toggling}>
             Categories
             </DropDownHeader>
-            {isOpen && (
+            {(isOpen && state.hasLoaded) && (
                 <DropDownListContainer>
                     <DropDownList>
                     {categories?.map((category, index) => (
@@ -53,7 +51,7 @@ const NavMenu = () => {
             </DropDownContainer>
             </div>
         </Wrapper>
-    )}
+    )
 }
 
 const NavMenuLink = styled(NavLink)`
