@@ -17,6 +17,7 @@ const client = new MongoClient(MONGO_URI, options);
 const db = client.db("Ecommerce");
 
 const getAllCompanies = async (req, res) => {
+
   //To paginate from server we use skip & limit as query parameters. In case they aren't sent, we default to skip 0 and limit 20.
   let { skip, limit } = req.query;
   skip ? (skip = Number(skip)) : (skip = 0);
@@ -44,6 +45,7 @@ const getAllCompanies = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
+  
   //To paginate from server we use skip & limit as query parameters. In case they aren't sent, we default to skip 0 and limit 20.
   let { skip, limit } = req.query;
   skip ? (skip = Number(skip)) : (skip = 0);
@@ -72,6 +74,7 @@ const getAllProducts = async (req, res) => {
 };
 
 const getCompanyById = async (req, res) => {
+
   //Transform _id string to number so we can use it to search for company _id
   const _id = Number(req.params._id);
 
@@ -95,6 +98,7 @@ const getCompanyById = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
+
   //Transform _id string to number so we can use it to search for product _id
   const _id = Number(req.params._id);
 
@@ -116,8 +120,9 @@ const getProductById = async (req, res) => {
 };
 
 const getProductsByCategory = async (req, res) => {
+  
   const category = req.params.category;
-  console.log(typeof category);
+  
   try {
     await client.connect();
     const products = await db
@@ -140,45 +145,45 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const addNewCustomer = async (req, res) => {
-  const { firstName, lastName, address, phoneNumber, email } = req.body;
-
-  const newPurchase = req.body.purchaseInfo;
-  console.log(newPurchase);
-
+  
+  const { firstName, lastName, address, phoneNumber, email} =
+    req.body;
+  
+    const newPurchase = req.body.purchaseInfo
+    
   try {
     await client.connect();
     console.log("connected");
 
     const customersList = await db.collection("customers").find().toArray();
-
-    const purchaseId = uuidv4();
-    const purchases = newPurchase.map((purchase) => {
-      return { ...purchase, purchaseId, date: new Date() };
-    });
-
-    if (customersList.filter((e) => e.email === email).length > 0) {
-      //   const updateStock = await db.collection("items").updateOne(
-      //     { _id: Number(newPurchase._id) },
-      //     {
-      //       $inc: {
-      //         numInStock: -newPurchase.quantity,
-      //       },
-      //     }
-      //   );
-      //   console.log(updateStock);
-
-      const updatePurchaseInfo = await db.collection("customers").updateOne(
-        { email: email },
+    
+    //check to see if user already exists so we add the purchase info to that user instead of creating a new document in the collection
+    if (customersList.filter(e => e.email === email).length > 0) {
+      
+      //update inventory numbers
+      const updateStock = await db.collection("items").updateOne(
+        { _id: Number(newPurchase._id) },
         {
           $push: {
             purchaseInfo: { $each: purchases },
           },
         }
       );
+      
+      //add the purchase info to the user's array
+      const updatePurchaseInfo = await db
+        .collection("customers")
+        .updateOne(
+          { email: email },
+          { $push: { "purchaseInfo": {...newPurchase, purchaseId: uuidv4()} } })
+        
+      res.status(200).json({ status: 200, data: updatePurchaseInfo});
 
       console.log(updatePurchaseInfo);
       res.status(200).json({ status: 200, data: updatePurchaseInfo });
     } else {
+      
+      //if it's a new user we simple create the new document in Mongo
       const _id = uuidv4();
       const newEntry = await db.collection("customers").insertOne({
         _id: _id,
