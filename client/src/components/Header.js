@@ -5,11 +5,13 @@ import SearchBar from "./Navbar/SearchBar";
 import SearchInput from "./Navbar/SearchInput";
 
 import wearableLogo from "../assets/wearable-logo.png";
-import LoginButton from "./Login/LoginButton";
-import NavMenu from "./NavMenu/NavMenu";
+
 
 //children
 import Cart from "./Navbar/Cart";
+import LoginButton from "./Login/LoginButton";
+import NavMenu from "./NavMenu/NavMenu";
+
 
 const Header = () => {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
@@ -26,7 +28,7 @@ const Header = () => {
         <SearchBar handleSearchClick={handleSearchClick} />
         <LoginButton />
 
-        <Cart />
+        <Cart/>
       </RightNavGroup>
     </HeaderWrapper>
   );
