@@ -144,7 +144,7 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
-const addNewCustomer = async (req, res) => {
+const addNewPurchase = async (req, res) => {
   
   const { firstName, lastName, address, phoneNumber, email} =
     req.body;
@@ -160,7 +160,7 @@ const addNewCustomer = async (req, res) => {
     //check to see if user already exists so we add the purchase info to that user instead of creating a new document in the collection
     if (customersList.filter(e => e.email === email).length > 0) {
       
-      //update inventory numbers
+      
       const updateStock = await db.collection("items").updateOne(
         { _id: Number(newPurchase._id) },
         {
@@ -215,5 +215,5 @@ module.exports = {
   getCompanyById,
   getProductById,
   getProductsByCategory,
-  addNewCustomer,
+  addNewPurchase,
 };
