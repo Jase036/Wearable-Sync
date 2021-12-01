@@ -5,21 +5,9 @@ export const ItemContext = createContext(null);
 const initialState = {
   hasLoaded: false,
   items: [],
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   categoryItems: [],
   searchItems: [],
-  cart: [1],
-<<<<<<< HEAD
-=======
-=======
-  cart: [],
->>>>>>> Stashed changes
-=======
   cart: [{product_id: "", quantity: 0}], 
->>>>>>> Stashed changes
-  
->>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
 };
 
 function reducer(state, action) {
@@ -60,7 +48,6 @@ function reducer(state, action) {
       };
     }
 
-<<<<<<< Updated upstream
     case "receive-category-item-info-from-server": {
       return {
         ...state,
@@ -74,7 +61,7 @@ function reducer(state, action) {
         searchItems: action.searchItems,
       };
     }
-=======
+    
     case "remove-from-shopping-cart": {
       return {
         ...state, 
@@ -82,7 +69,6 @@ function reducer(state, action) {
       }
     }
 
->>>>>>> Stashed changes
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
   }
@@ -122,17 +108,6 @@ export const ItemProvider = ({ children }) => {
   };
 
 
-<<<<<<< Updated upstream
-  const addToCart = ()=>{
-   dispatch({
-   
-    type:"add-to-shopping-cart"
-
-   });
-  }
-
-
-=======
   const addPurchase = (data) => {
     let updateArray;
     if([...state.cart].filter((item) => item.product_id === data.product_id).length === 0) {
@@ -161,7 +136,6 @@ export const ItemProvider = ({ children }) => {
   
 
 
->>>>>>> Stashed changes
   //Loading state will allow us to use a loading component during async operations in other components
   const setLoadingState = () => {
     dispatch({
@@ -209,16 +183,9 @@ export const ItemProvider = ({ children }) => {
         removePurchase,
         setLoadingState,
         unsetLoadingState,
-<<<<<<< HEAD
         receiveCategoryItemInfoFromServer,
         receiveSearchItemInfoFromServer,
-=======
-<<<<<<< Updated upstream
-        receiveCategoryItemInfoFromServer
-=======
-        addToCart
->>>>>>> Stashed changes
->>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
+        addPurchase
       }}
     >
       {children}
