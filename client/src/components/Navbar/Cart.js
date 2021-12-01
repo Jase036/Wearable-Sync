@@ -1,46 +1,94 @@
-import React, {useContext}from "react";
+import React, { useContext, useState } from "react";
 import { ItemContext } from "../ItemContext";
-import { BsCart3 } from "react-icons/bs";
+
 
 //styling
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ShoppingCart from "../shoppingCart/ShoppingCart";
 
-const Cart = () =>{
-
-
-return(
-<>
-<CartNav to={"/shoppingCart"}><BsCart3 /></CartNav>
-
-    <Total>
-    <p>3</p>
-    </Total>
-
-</>
-
-)
+//icons
+import {RiCloseFill} from "react-icons/ri";
+import { BsCart3 } from "react-icons/bs";
 
 
-}
+const Cart = () => {
+  const [opened, setOpened] = useState(false);
 
-export default Cart
 
-const Total =styled.div`
-position:absolute;
-right:40px;
-background:var(--dusty-rose);
-border-radius:50%;
-width:10px;
-`
+  return (
+    <>
+      {opened ? (  
+        <SideBar>
+          <Xwrapper onClick={()=>{setOpened(false)}}>
+          <RiCloseFill size={35} color={"#616060"}  />
+          </Xwrapper>
+          <ShoppingCart />
+        </SideBar>
+      ) : null}
 
-const CartNav = styled(Link)`
+      <CartNav
+        onClick={() => {
+          setOpened(true);
+        }}
+      >
+        <BsCart3 />
+      </CartNav>
+
+      <Total>
+        <p>3</p>
+      </Total>
+    </>
+  );
+};
+
+export default Cart;
+
+const Xwrapper = styled.button`
 background:none;
 border:none;
+position:absolute;
+top:50px;
+right:50px;
 cursor:pointer;
-position:relative;
-text-decoration: none;
-color: #fff;
-font-size: 25px;
-font-weight:700;
+padding:10px;
+
 `
+
+const Total = styled.div`
+  position: absolute;
+  right: 40px;
+  background: var(--dusty-rose);
+  border-radius: 50%;
+  width: 10px;
+`;
+
+
+const CartNav = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 700;
+`;
+
+
+const SideBar = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 400px;
+  z-index: 300;
+  background-color: var(--dusty-rose);
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`;
