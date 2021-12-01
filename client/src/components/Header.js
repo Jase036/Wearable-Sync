@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { BsCart3 } from "react-icons/bs";
 
 import wearableLogo from "../assets/wearable-logo.png"
 import LoginButton from "./Login/LoginButton";
@@ -9,13 +10,18 @@ import NavMenu from "./NavMenu/NavMenu";
 //children
 import Cart from "./Navbar/Cart";
 
+
 const Header = () => {
 
     return (
         <HeaderWrapper>
             <NavMenu />
             <Logo alt="Wearable Sync logo" src={wearableLogo}/>
-            <div><LoginButton /> Search <Cart/></div>
+            <RightNavGroup>
+                <LoginButton />
+                <div>Search </div> 
+                <Cart/>
+            </RightNavGroup>
             
         </HeaderWrapper>
     )
@@ -33,12 +39,17 @@ const HeaderWrapper = styled.div`
     font-family: var(--font-family);
     position: sticky;
     top:0;
-    z-index: 5;
+    z-index: 50;
     padding: 5px 50px;
     margin-bottom: -90px;
 `
 const Logo = styled.img`
     max-width: 200px;
     height: auto;
+`
+const RightNavGroup = styled.div`
+    display:flex;
+    justify-content: space-between;
+    width: 200px;
 `
 export default Header;
