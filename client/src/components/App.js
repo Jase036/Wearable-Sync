@@ -7,7 +7,7 @@ import Globalstyles from "./Globalstyles";
 import Home from "./HomePage/Home";
 import About from "./About";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
-import ItemDetails from "./ItemDetails";
+import ItemDetailPage from "./ItemDetailPage";
 import CheckOutForm from "./shoppingCart/CheckoutForm";
 import Category from "./Category";
 import Search from "./Search";
@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/:type">
+          <Route path="/category/:type">
             <Category />
           </Route>
           <Route path="/search/:type">
@@ -34,7 +34,7 @@ function App() {
             <About />
           </Route>
           <Route path="/item/:_id">
-            <ItemDetails />
+            <ItemDetailPage />
           </Route>
           <Route exact path="/checkout">
             <CheckOutForm />
