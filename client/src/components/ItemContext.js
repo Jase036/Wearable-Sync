@@ -111,6 +111,8 @@ export const ItemProvider = ({ children }) => {
         paginationIndex,
         setPaginationIndex,
         clearPurchase,
+        setLoadingState,
+        unsetLoadingState
       }}
     >
       {children}
