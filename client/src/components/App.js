@@ -7,6 +7,7 @@ import Globalstyles from "./Globalstyles";
 import Home from "./HomePage/Home";
 import About from "./About";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
+import ItemDetails from './ItemDetails'
 
 
 
@@ -23,6 +24,9 @@ function App() {
               </Route>
               <Route path="/about">
                 <About />
+              </Route>
+              <Route path="/item/:_id">
+                <ItemDetails />
               </Route>
               <Route exact path="/shoppingCart">
                 <ShoppingCart />

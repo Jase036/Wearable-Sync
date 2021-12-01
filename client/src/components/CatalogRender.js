@@ -10,8 +10,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const CatalogRender = () => {
-  const { state, paginationIndex, setPaginationIndex} =
-  useContext(ItemContext);
+  const { state, paginationIndex, setPaginationIndex} = useContext(ItemContext);
 
 
 
@@ -45,13 +44,13 @@ const CatalogRender = () => {
         <Wrapper>
           {state.items.map((item) => {
             return (
-              <ProductContainer key={item._id}>
+              <ProductContainer key={item._id} to={`/item/${item._id}`}>
                 <Para>{item.name}</Para>
                 <ProductImg alt="product" src={item.imageSrc} />
                 <Overlay>
                   {item.numInStock !==0 ? 
                   <Button onClick={()=>{handleClick(item)}}  >Add to cart</Button> :
-                  <p>Out of stuck</p>}
+                  <p>Out of stock</p>}
                 </Overlay>
               </ProductContainer>
             );
@@ -68,7 +67,7 @@ const CatalogRender = () => {
 };
 
 
-const Button = styled.button`
+const Button = styled.div`
 
 cursor:pointer;
 height:20px;
@@ -109,7 +108,7 @@ const Wrapper = styled.div`
   justify-content: center;
   margin-top: 30px;
 `;
-const ProductContainer = styled.div`
+const ProductContainer = styled(Link)`
   width: 400px;
   height: 400px;
   padding: 50px;
