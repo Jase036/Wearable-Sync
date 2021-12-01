@@ -1,6 +1,6 @@
 import React from "react";
 import { ItemContext } from "../ItemContext";
-
+import { BsCart3 } from "react-icons/bs";
 
 //styling
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ const Cart = () =>{
 
 return(
 <>
-<CartNav to={"/shoppingCart"}>cart</CartNav>
+<CartNav to={"/shoppingCart"}><BsCart3 /></CartNav>
 
     <Total>
     <p>3</p>
@@ -38,5 +38,8 @@ background:none;
 border:none;
 cursor:pointer;
 position:relative;
-
+text-decoration: none;
+color: #fff;
+font-size: 25px;
+font-weight:700;
 `
