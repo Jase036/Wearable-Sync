@@ -44,12 +44,11 @@ function reducer(state, action) {
         cart: [],
       };
     }
-
-<<<<<<< Updated upstream
-    default:
-      throw new Error(`Unrecognized action: ${action.type}`);
+    default:{
+      throw new Error(`Unrecognized action: ${action.type}`)
+    }
   }
-=======
+  
     //We load the items from DB using pagination
     useEffect(() => {
         const limit=20;
@@ -81,7 +80,6 @@ function reducer(state, action) {
                 {children}
             </ItemContext.Provider>
     )
->>>>>>> Stashed changes
 }
 
 export const ItemProvider = ({ children }) => {
