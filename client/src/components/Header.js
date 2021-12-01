@@ -25,7 +25,9 @@ const Header = () => {
       <RightNavGroup>
         {/* to conditionally render the searchbar */}
         {isSearchClicked && <SearchInput />}
-        <SearchBar handleSearchClick={handleSearchClick} />
+        {!isSearchClicked && (
+          <SearchBar handleSearchClick={handleSearchClick} />
+        )}
         <LoginButton />
 
         <Cart/>
