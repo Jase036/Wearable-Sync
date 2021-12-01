@@ -8,6 +8,7 @@ import Home from "./HomePage/Home";
 import About from "./About";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
 import ItemDetails from './ItemDetails'
+import CheckOutForm from "./shoppingCart/CheckoutForm";
 
 
 
@@ -28,8 +29,8 @@ function App() {
               <Route path="/item/:_id">
                 <ItemDetails />
               </Route>
-              <Route exact path="/shoppingCart">
-                <ShoppingCart />
+              <Route exact path="/checkout">
+                <CheckOutForm />
               </Route>
             
             </Switch>
