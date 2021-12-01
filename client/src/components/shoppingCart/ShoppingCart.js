@@ -36,8 +36,8 @@ const ShoppingCart = () => {
            clear
        </button>
 
-       <button>
-           submit 
+       <button >
+           check out
        </button>
       </>
     );
