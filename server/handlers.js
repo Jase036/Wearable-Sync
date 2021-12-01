@@ -156,13 +156,25 @@ const addNewPurchase = async (req, res) => {
     console.log("connected");
 
     const customersList = await db.collection("customers").find().toArray();
-    
-    //check to see if user already exists so we add the purchase info to that user instead of creating a new document in the collection
-    if (customersList.filter(e => e.email === email).length > 0) {
-      
-      
-      const updateStock = await db.collection("items").updateOne(
-        { _id: Number(newPurchase.productId) },
+
+    const purchaseId = uuidv4();
+    const purchases = newPurchase.map((purchase) => {
+      return { ...purchase, purchaseId, date: new Date() };
+    });
+
+    if (customersList.filter((e) => e.email === email).length > 0) {
+      //   const updateStock = await db.collection("items").updateOne(
+      //     { _id: Number(newPurchase._id) },
+      //     {
+      //       $inc: {
+      //         numInStock: -newPurchase.quantity,
+      //       },
+      //     }
+      //   );
+      //   console.log(updateStock);
+
+      const updatePurchaseInfo = await db.collection("customers").updateOne(
+        { email: email },
         {
           $push: {
             purchaseInfo: { $each: purchases },
@@ -170,12 +182,6 @@ const addNewPurchase = async (req, res) => {
         }
       );
       
-      //add the purchase info to the user's array
-      const updatePurchaseInfo = await db
-        .collection("customers")
-        .updateOne(
-          { email: email },
-          { $push: { "purchaseInfo": {...newPurchase, _id: uuidv4()} } })
         
       res.status(200).json({ status: 200, data: updatePurchaseInfo});
 
@@ -195,7 +201,7 @@ const addNewPurchase = async (req, res) => {
     }
     newPurchase.map(async (purchase) => {
       const updateStock = await db.collection("items").updateOne(
-        { _id: Number(purchase.productId) },
+        { _id: Number(purchase._id) },
         {
           $inc: {
             numInStock: -purchase.quantity,
