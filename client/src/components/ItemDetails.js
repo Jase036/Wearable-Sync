@@ -1,28 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from "styled-components"
 import { useParams, useHistory } from "react-router-dom"
-import { ItemContext } from './ItemContext';
-import LoadingSpinner from './LoadingSpinner';
+import { Link } from "react-router-dom"
+import { ItemContext } from './ItemContext'
+import LoadingSpinner from './LoadingSpinner'
 
 
 const ItemDetails = () => {
-
-    // const initialState = {
-    //     itemId: "",
-    //     quantity: "",
-    // }
 
     const {_id}  = useParams();
     let history = useHistory();
 
 
-
+    // var related to item & company displayed on page
     const [selectedItem, setSelectedItem] = useState(null)
     const [selectedCompany, setSelectedCompany] = useState(null)
-    // const [cartDetails, setCartDetails] = useState(initialState)
     
-    const { state, setLoadingState, unsetLoadingState } = useContext(ItemContext)
+    const { state, setLoadingState, unsetLoadingState, addPurchase } = useContext(ItemContext)
 
+//     if(localStorage.getItem("cartSummary") === null) {
+//         localStorage.setItem("cartSummary", JSON.stringify([]));
+// }
+    
+    // const {itemId, name, price } = cartItem ;
 
     // Fetch product by Id
 
@@ -30,15 +30,16 @@ const ItemDetails = () => {
         setLoadingState()
         fetch(`/api/product/${_id}`)
         .then((res) => res.json())
-        .then((data) => {
+        .then((data) => {  
+            console.log(data)          
             if (data.status !== 200) {
+                console.log(data.error.message)
             } else {
                 setSelectedItem(data.data)
                 unsetLoadingState()
             }
         })
     }, [])
-
 
     // Fetch company by the Id of the selected item 
 
@@ -59,39 +60,13 @@ const ItemDetails = () => {
         }
     }, [selectedItem])
 
+    // const handleClick = (ev, cartItem) => {
+    //     ev.preventDefault();
+    //     addPurchase(cartItem);
+    // }
 
-
-    // Add the item to cart 
-
-    const addItemToCart = (_id, quantity) => {
-
-        const fetchToCart = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ itemId: _id, quantity: quantity }),
-        };
-
-        fetch(`/api/product/${_id}`, fetchToCart)
-        .then((res) => res.json())
-        .then((updatedCart) => {
-            const {message, cart} = updatedCart;
-            if(message === "Cart Summary") {
-                const prevCart = JSON.parse(localStorage.getItem("updatedCart"))
-
-                for(let i=0; i< prevCart.length; i++) {
-                    if (prevCart[i]._id === cart._id) {
-                        return;
-                    }
-                }
-                cart.numInStock -= quantity;
-                prevCart.push(cart);
-                localStorage.setItem("updatedCart", JSON.stringify(prevCart))
-            }
-        })
-    }
-
+    const purchaseData = {product_id: selectedItem?.product_id, quantity: 1 }
+    console.log(selectedItem)
 
     if (!state.hasLoaded) {
         return (
@@ -118,7 +93,9 @@ const ItemDetails = () => {
                             selectedItem.numInStock && (
                                 <>
                                 <PriceSpan>{selectedItem.price}</PriceSpan>
-                                <StyledBtn onClick={() => addItemToCart(_id)}><span>Add to Cart</span></StyledBtn>
+                                <Link to='/shoppingCart'>
+                                <StyledBtn onClick={() => addPurchase()}><span>Add to Cart</span></StyledBtn>
+                                </Link>
                                 </>
                                 ) 
                                 ) : (
