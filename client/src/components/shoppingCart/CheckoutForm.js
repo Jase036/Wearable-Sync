@@ -1,97 +1,145 @@
-import React, { useState} from "react";
+import Address from "ipaddr.js";
+import React, { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 //styling
 import styled from "styled-components";
 
-
-
-
-
-
+// there are 2 piece of info with quantity, productId:""
 
 const CheckOutForm = () => {
+  const [clientInfo, setClientInfo] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNum: "",
+    email: "",
+    address: "",
+    city: "",
+    postalCode: "",
+    province: "",
+    creditCardNum: "",
+    expiryM: "",
+    expiryY: "",
+  });
 
-const [clientInfo, setClientInfo] = useState();
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
 
-const getInfo = () =>{
+  const getInfo = (ev) => {
+    setClientInfo({ ...clientInfo, [ev.target.id]: ev.target.value });
+  };
 
-
-
-}
-
-
-
-
-const handleSubmit = (ev) => {
-
-
+  const handleSubmit = (ev) => {
     ev.preventDefault();
-   
-    fetch ("/api/add-new-purchase" ,{
-       method:"POST", 
-       headers:{
+
+    fetch("/api/add-new-purchase", {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
-       },
-       body : JSON.stringify(clientInfo)
-     //the keys in frontend has to match the backend 
-      })
-      .then((res)=>res.json())
-      .then((data)=>{
-     
-       // console.log(data)
-       if (data.status === 200) {
-         window.localStorage.setItem(
-           "reservationInfo",
-           JSON.stringify(data.data)
-         );
-       //   history.push("/confirmed");
-       } else if (data.status === 500) {
-         window.alert("This seat is already booked");
-       }
-       else {
-         window.alert("something went wrong!");
-       }
-     });
-   
-   
-   }
+        Accept: "application/json",
+      },
+      body: JSON.stringify(clientInfo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data)
+        if (data.status !== 200) {
+          return(<h1>please fill the missing info</h1>)
+        } else {
+          JSON.stringify(data.data);
+          //   history.push("/confirmed")
+        }
+      });
+  };
 
   return (
     <div>
-        <p>Shipping Info:</p>
+      <p>Shipping Info:</p>
       <form onSubmit={handleSubmit}>
         <label>
           First Name:
-          <input type="text" onChange={getInfo} placeholder="First Name" required></input>
+          <input
+            type="text"
+            onChange={getInfo}
+            id="firstName"
+            value={isAuthenticated? user.given_name:clientInfo.firstName}
+            placeholder="First Name"
+            required
+          ></input>
         </label>
         <label>
           Last Name:
-          <input type="text" onChange={getInfo} placeholder="Last Name" required></input>
+          <input
+            type="text"
+            onChange={getInfo}
+            id="lastName"
+            value={isAuthenticated? user.family_name: clientInfo.lastName}
+            placeholder="Last Name"
+            required
+          ></input>
         </label>
         <label>
           Phone Number:
-          <input type="number" onChange={getInfo} placeholder="Phone Number" required></input>
+          <input
+            type="tel"
+            value={clientInfo.phoneNum}
+            id="phoneNum"
+            onChange={getInfo}
+            placeholder="Phone Number"
+            required
+          ></input>
         </label>
         <label>
           email:
-          <input type="email" onChange={getInfo} placeholder="Last Name" required></input>
+          <input
+            type="email"
+            value={isAuthenticated? user.email: clientInfo.email}
+            id="email"
+            onChange={getInfo}
+            placeholder="Last Name"
+            required
+          ></input>
         </label>
         <label>
           Address:
-          <input type="text" onChange={getInfo} placeholder="Address" required></input>
+          <input
+            type="text"
+            value={clientInfo.address}
+            id="address"
+            onChange={getInfo}
+            placeholder="Address"
+            required
+          ></input>
         </label>
         <label>
           City
-          <input type="text" onChange={getInfo} placeholder="City" required></input>
+          <input
+            type="text"
+            value={clientInfo.city}
+            id="city"
+            onChange={getInfo}
+            placeholder="City"
+            required
+          ></input>
         </label>
         <label>
           Postal Code
-          <input type="text" onChange={getInfo} placeholder="postal code" required></input>
+          <input
+            type="text"
+            value={clientInfo.postalCode}
+            id="postalCode"
+            onChange={getInfo}
+            placeholder="postal code"
+            required
+          ></input>
         </label>
         <label>
-          <select>
+          <select
+            onChange={getInfo}
+            value={clientInfo.province}
+            id="province"
+            required
+          >
             <option value disabled selected>
               Province
             </option>
@@ -109,27 +157,54 @@ const handleSubmit = (ev) => {
             <option value="YT">Yukon</option>
           </select>
         </label>
-        <label >
+        <label>
           Credit card:
-          <input onChange={getInfo} type="text" placeholder="card number" required></input>
+          <input
+            value={clientInfo.creditCardNum}
+            id="creditCardNum"
+            onChange={getInfo}
+            type="text"
+            placeholder="card number"
+            required
+          ></input>
         </label>
-        <label >
+        <label>
           Expiry:
-          <input onChange={getInfo} type="text" placeholder="MM"   name="month" maxlength="2" size="2" required></input><span>/</span>
-          <input type="text" name="year" placeholder="YY" maxlength="2" size="2" />
+          <input
+            value={clientInfo.expiryM}
+            id="expiryM"
+            onChange={getInfo}
+            type="text"
+            placeholder="MM"
+            name="month"
+            maxLength="2"
+            size="2"
+            required
+          ></input>
+          <span>/</span>
+          <input
+            value={clientInfo.expiryY}
+            id="expiryY"
+            onChange={getInfo}
+            type="text"
+            name="year"
+            placeholder="YY"
+            maxLength="2"
+            size="2"
+            required
+          />
         </label>
       </form>
-      <Submit type="submit">Submit</Submit>
+      \<Submit type="submit">Submit</Submit>
     </div>
   );
 };
 
 export default CheckOutForm;
 
-
 const Submit = styled.button`
-display:block;
-margin:auto;
-height:70px;
-font-siz:10px;
-`
+  display: block;
+  margin: auto;
+  height: 70px;
+  font-siz: 10px;
+`;
