@@ -5,8 +5,12 @@ export const ItemContext = createContext(null);
 const initialState = {
   hasLoaded: false,
   items: [],
+<<<<<<< Updated upstream
   categoryItems: [],
   cart: [1],
+=======
+  cart: [],
+>>>>>>> Stashed changes
   
 };
 
@@ -83,6 +87,16 @@ export const ItemProvider = ({ children }) => {
     });
   };
 
+
+  const addToCart = ()=>{
+   dispatch({
+   
+    type:"add-to-shopping-cart"
+
+   });
+  }
+
+
   //Loading state will allow us to use a loading component during async operations in other components
   const setLoadingState = () => {
     dispatch({
@@ -129,7 +143,11 @@ export const ItemProvider = ({ children }) => {
         clearPurchase,
         setLoadingState,
         unsetLoadingState,
+<<<<<<< Updated upstream
         receiveCategoryItemInfoFromServer
+=======
+        addToCart
+>>>>>>> Stashed changes
       }}
     >
       {children}

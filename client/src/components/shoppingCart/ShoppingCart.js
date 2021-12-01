@@ -13,6 +13,7 @@ const ShoppingCart = () => {
 
   const {cart} = state;
 
+  console.log(state)
   if (cart.length === 0) {
     return (
       <>
