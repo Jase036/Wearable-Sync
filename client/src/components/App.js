@@ -9,6 +9,7 @@ import About from "./About";
 import ShoppingCart from "./shoppingCart/ShoppingCart";
 import ItemDetails from './ItemDetails'
 import CheckOutForm from "./shoppingCart/CheckoutForm";
+import Category from "./Category";
 
 import ErrorPage from "./ErrorPage";
 import ConfirmationPage from "./ConfirmationPage";
@@ -23,6 +24,9 @@ function App() {
             <Switch>
               <Route exact path="/">
                 <Home />
+              </Route>
+              <Route path="/:type">
+                <Category />
               </Route>
               <Route path="/about">
                 <About />

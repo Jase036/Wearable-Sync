@@ -15,7 +15,7 @@ return(
     <>
         <Header />
         <Banner/>
-        <CatalogRender />
+        <CatalogRender type="home"/>
         <Footer />
     </>
 
