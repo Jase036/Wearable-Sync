@@ -45,6 +45,7 @@ function reducer(state, action) {
       };
     }
 
+
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
   }
