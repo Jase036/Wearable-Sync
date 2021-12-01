@@ -55,6 +55,6 @@ const Logo = styled.img`
 const RightNavGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 200px;
+  /* width: 200px; */
 `;
 export default Header;

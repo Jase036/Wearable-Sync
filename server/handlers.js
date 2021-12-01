@@ -171,13 +171,10 @@ const addNewPurchase = async (req, res) => {
         .collection("customers")
         .updateOne(
           { email: email },
-          { $push: { purchaseInfo: { ...newPurchase, purchaseId: uuidv4() } } }
+          { $push: { purchaseInfo: { ...newPurchase, purchaseId } } }
         );
 
-      res.status(200).json({ status: 200, data: updatePurchaseInfo });
-
-      console.log(updatePurchaseInfo);
-      res.status(200).json({ status: 200, data: updatePurchaseInfo });
+      res.status(200).json({ status: 200, data: purchaseId });
     } else {
       //if it's a new user we simple create the new document in Mongo
       const _id = uuidv4();
@@ -207,7 +204,7 @@ const addNewPurchase = async (req, res) => {
 
 const searchTerm = async (req, res) => {
   const { searchTerm } = req.query;
-  let { skip, limit } = req.query;
+  // let { skip, limit } = req.query;
   // skip ? (skip = Number(skip)) : (skip = 0);
   // limit ? (limit = Number(limit)) : (limit = 20);
 
@@ -222,7 +219,7 @@ const searchTerm = async (req, res) => {
     });
     console.log(searchTerm);
 
-    const query = { $text: { $search: "garmin" } };
+    const query = { $text: { $search: searchTerm } };
     const searchResult = await db.collection("items").find(query).toArray();
     console.log(searchResult);
 
@@ -241,37 +238,34 @@ const searchTerm = async (req, res) => {
   }
 };
 
-
 const getCategories = async (req, res) => {
+  try {
+    await client.connect();
+    console.log("connected!");
 
-  try{ 
-
-      await client.connect();
-      console.log("connected!");
-      
-      const productsList = await db
+    const productsList = await db
       .collection("items")
-      .find().project({category:1})
+      .find()
+      .project({ category: 1 })
       .toArray();
 
-      await client.close
-      let categories = [];
-      productsList.map(e => categories.push(e.category))
-      let uniqueArray = categories.filter((e, i, s) => s.indexOf(e) === i);
-      
-      if (uniqueArray) {
-        res.status(200).json({ status: 200, data: uniqueArray });
-      } else {
-        res
-          .status(404).json({ status: 404, message: "No results found for your search" });
-      }
-    
-  } catch (err) {
-    console.log(err.stack)
-      res.status(500).json({ status: 500, message: err.message });
-  }
-}
+    await client.close;
+    let categories = [];
+    productsList.map((e) => categories.push(e.category));
+    let uniqueArray = categories.filter((e, i, s) => s.indexOf(e) === i);
 
+    if (uniqueArray) {
+      res.status(200).json({ status: 200, data: uniqueArray });
+    } else {
+      res
+        .status(404)
+        .json({ status: 404, message: "No results found for your search" });
+    }
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
 
 module.exports = {
   getAllCompanies,

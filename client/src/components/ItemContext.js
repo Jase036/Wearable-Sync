@@ -7,11 +7,15 @@ const initialState = {
   items: [],
 <<<<<<< Updated upstream
   categoryItems: [],
+  searchItems: [],
   cart: [1],
+<<<<<<< HEAD
+=======
 =======
   cart: [],
 >>>>>>> Stashed changes
   
+>>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
 };
 
 function reducer(state, action) {
@@ -49,6 +53,7 @@ function reducer(state, action) {
         cart: [],
       };
     }
+
     case "receive-category-item-info-from-server": {
       return {
         ...state,
@@ -56,6 +61,12 @@ function reducer(state, action) {
       };
     }
 
+    case "receive-search-item-info-from-server": {
+      return {
+        ...state,
+        searchItems: action.searchItems,
+      };
+    }
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
   }
@@ -65,8 +76,6 @@ export const ItemProvider = ({ children }) => {
   const [paginationIndex, setPaginationIndex] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
 
- 
-
   //the item fetch dispatch function set up for pagination. The existing array is duplicated with spread and the concatenated with the new incoming data.
   const receiveItemInfoFromServer = (data) => {
     dispatch({
@@ -74,10 +83,18 @@ export const ItemProvider = ({ children }) => {
       items: [...state.items].concat(data),
     });
   };
+
   const receiveCategoryItemInfoFromServer = (data) => {
     dispatch({
       type: "receive-category-item-info-from-server",
       categoryItems: [...state.categoryItems].concat(data),
+    });
+  };
+
+  const receiveSearchItemInfoFromServer = (data) => {
+    dispatch({
+      type: "receive-search-item-info-from-server",
+      searchItems: data,
     });
   };
 
@@ -113,7 +130,6 @@ export const ItemProvider = ({ children }) => {
     });
   };
 
-
   //We load the items from DB using pagination
   useEffect(() => {
     const limit = 20;
@@ -126,7 +142,7 @@ export const ItemProvider = ({ children }) => {
         if (data.status !== 200) {
           console.log(data);
         } else {
-            console.log(data);
+          console.log(data);
           receiveItemInfoFromServer(data.data);
           unsetLoadingState();
         }
@@ -143,11 +159,16 @@ export const ItemProvider = ({ children }) => {
         clearPurchase,
         setLoadingState,
         unsetLoadingState,
+<<<<<<< HEAD
+        receiveCategoryItemInfoFromServer,
+        receiveSearchItemInfoFromServer,
+=======
 <<<<<<< Updated upstream
         receiveCategoryItemInfoFromServer
 =======
         addToCart
 >>>>>>> Stashed changes
+>>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
       }}
     >
       {children}
