@@ -6,6 +6,7 @@ const initialState = {
   hasLoaded: false,
   items: [],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   categoryItems: [],
   searchItems: [],
   cart: [1],
@@ -13,6 +14,9 @@ const initialState = {
 =======
 =======
   cart: [],
+>>>>>>> Stashed changes
+=======
+  cart: [{product_id: "", quantity: 0}], 
 >>>>>>> Stashed changes
   
 >>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
@@ -42,10 +46,12 @@ function reducer(state, action) {
 
     case "add-to-shopping-cart": {
       return {
-        ...state,
+        ...state, 
         cart: action.cart,
+      }
+
       };
-    }
+    
 
     case "clear-shopping-cart": {
       return {
@@ -54,6 +60,7 @@ function reducer(state, action) {
       };
     }
 
+<<<<<<< Updated upstream
     case "receive-category-item-info-from-server": {
       return {
         ...state,
@@ -67,6 +74,15 @@ function reducer(state, action) {
         searchItems: action.searchItems,
       };
     }
+=======
+    case "remove-from-shopping-cart": {
+      return {
+        ...state, 
+        cart: action.cart,
+      }
+    }
+
+>>>>>>> Stashed changes
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
   }
@@ -101,10 +117,12 @@ export const ItemProvider = ({ children }) => {
   const clearPurchase = () => {
     dispatch({
       type: "clear-shopping-cart",
+      cart: [],
     });
   };
 
 
+<<<<<<< Updated upstream
   const addToCart = ()=>{
    dispatch({
    
@@ -114,6 +132,36 @@ export const ItemProvider = ({ children }) => {
   }
 
 
+=======
+  const addPurchase = (data) => {
+    let updateArray;
+    if([...state.cart].filter((item) => item.product_id === data.product_id).length === 0) {
+      updateArray = data
+    } else {
+      updateArray = [...state.cart].map((item) => {
+        if(item.product_id === data.product_id) {
+          item.quantity ++
+        }})}
+    dispatch({
+      type: "add-to-shopping-cart",
+      cart: [...state.cart].concat(updateArray)
+      })
+
+  }
+
+
+  const removePurchase = () => {
+    dispatch({
+      type: "remove-from-shopping-cart",
+      cart: [...state.cart].filter((item) => item._id !== state.cart.product_id)
+
+  })
+}
+
+  
+
+
+>>>>>>> Stashed changes
   //Loading state will allow us to use a loading component during async operations in other components
   const setLoadingState = () => {
     dispatch({
@@ -157,6 +205,8 @@ export const ItemProvider = ({ children }) => {
         paginationIndex,
         setPaginationIndex,
         clearPurchase,
+        addPurchase,
+        removePurchase,
         setLoadingState,
         unsetLoadingState,
 <<<<<<< HEAD
