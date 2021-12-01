@@ -25,9 +25,6 @@ const CatalogRender = () => {
 
   const handleClick = (item) =>{
 
-  localStorage.setItem("product-id", "value")
-     
-
   }
 
   //We add one to the pagination index, this will cause a fetch and re-render.

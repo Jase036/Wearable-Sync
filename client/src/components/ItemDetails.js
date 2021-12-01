@@ -13,8 +13,8 @@ const ItemDetails = () => {
 
 
     // var related to item & company displayed on page
-    const [selectedItem, setSelectedItem] = useState(null)
-    const [selectedCompany, setSelectedCompany] = useState(null)
+    const [selectedItem, setSelectedItem] = useState('')
+    const [selectedCompany, setSelectedCompany] = useState('')
     
     const { state, setLoadingState, unsetLoadingState, addPurchase } = useContext(ItemContext)
 
@@ -30,43 +30,52 @@ const ItemDetails = () => {
         setLoadingState()
         fetch(`/api/product/${_id}`)
         .then((res) => res.json())
-        .then((data) => {  
-            console.log(data)          
+        .then((data) => {            
             if (data.status !== 200) {
                 console.log(data.error.message)
             } else {
                 setSelectedItem(data.data)
-                unsetLoadingState()
+                
+                fetch(`/api/company/${data.data.companyId}`)
+                    .then((res) => res.json())
+                    .then((res) => {  
+                        console.log(res)          
+                        if (res.status !== 200) {
+                            console.log(res.error.message)
+                        } else {
+                            setSelectedCompany(res.data)
+                            unsetLoadingState()
+                        }
+                    })
             }
         })
     }, [])
 
     // Fetch company by the Id of the selected item 
 
-    useEffect(() => {
-        if (!selectedItem) {
-            return;
-        } else {
-            setLoadingState()
-            fetch(`/api/company/${selectedItem.companyId}`)
-            .then((res) => res.json())
-            .then((data) => {
-                if(data.status !== 200) {
-                } else {
-                    setSelectedCompany(data.data)
-                    unsetLoadingState()
-                }
-            })
-        }
-    }, [selectedItem])
+    // useEffect(() => {
+    //     if (!selectedItem) {
+    //         return;
+    //     } else {
+    //         setLoadingState()
+    //         fetch(`/api/company/${selectedItem.companyId}`)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             if(data.status !== 200) {
+    //             } else {
+    //                 setSelectedCompany(data.data)
+    //                 unsetLoadingState()
+    //             }
+    //         })
+    //     }
+    // }, [selectedItem])
 
     // const handleClick = (ev, cartItem) => {
     //     ev.preventDefault();
     //     addPurchase(cartItem);
     // }
 
-    const purchaseData = {product_id: selectedItem?.product_id, quantity: 1 }
-    console.log(selectedItem)
+    
 
     if (!state.hasLoaded) {
         return (
@@ -93,9 +102,9 @@ const ItemDetails = () => {
                             selectedItem.numInStock && (
                                 <>
                                 <PriceSpan>{selectedItem.price}</PriceSpan>
-                                <Link to='/shoppingCart'>
-                                <StyledBtn onClick={() => addPurchase()}><span>Add to Cart</span></StyledBtn>
-                                </Link>
+                                {/* <Link to='/shoppingCart'> */}
+                                <StyledBtn onClick={() => addPurchase([{product_id: selectedItem._id, quantity: 1 }])}><span>Add to Cart</span></StyledBtn>
+                                {/* </Link> */}
                                 </>
                                 ) 
                                 ) : (

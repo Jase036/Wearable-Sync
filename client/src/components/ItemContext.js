@@ -7,7 +7,7 @@ const initialState = {
   items: [],
   categoryItems: [],
   searchItems: [],
-  cart: [{product_id: "", quantity: 0}], 
+  cart: [], 
 };
 
 function reducer(state, action) {
@@ -78,6 +78,8 @@ export const ItemProvider = ({ children }) => {
   const [paginationIndex, setPaginationIndex] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  console.log (state)
+
   //the item fetch dispatch function set up for pagination. The existing array is duplicated with spread and the concatenated with the new incoming data.
   const receiveItemInfoFromServer = (data) => {
     dispatch({
@@ -109,17 +111,27 @@ export const ItemProvider = ({ children }) => {
 
 
   const addPurchase = (data) => {
-    let updateArray;
-    if([...state.cart].filter((item) => item.product_id === data.product_id).length === 0) {
-      updateArray = data
+    let updateArray = [];
+    
+    console.log([...state.cart].filter((item) => {
+      console.log(item);
+      console.log(data);
+     return item.product_id === data[0].product_id}).length === 0)
+    
+
+    if(state.cart.length === 0) {
+      updateArray = [...state.cart].concat(data);
+    } else if ([...state.cart].filter((item) => item.product_id === data[0].product_id).length === 0) {
+      updateArray = [...state.cart].concat(data)
     } else {
       updateArray = [...state.cart].map((item) => {
-        if(item.product_id === data.product_id) {
-          item.quantity ++
+        if(item.product_id === data[0].product_id) {
+          console.log(item.quantity) 
         }})}
+        
     dispatch({
       type: "add-to-shopping-cart",
-      cart: [...state.cart].concat(updateArray)
+      cart: updateArray
       })
 
   }
@@ -164,7 +176,6 @@ export const ItemProvider = ({ children }) => {
         if (data.status !== 200) {
           console.log(data);
         } else {
-          console.log(data);
           receiveItemInfoFromServer(data.data);
           unsetLoadingState();
         }

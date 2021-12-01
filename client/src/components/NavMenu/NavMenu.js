@@ -38,11 +38,10 @@ const NavMenu = () => {
                     console.log(data);
                     receiveCategoryItemInfoFromServer(data.data);
                     unsetLoadingState()
-                    history.push('/category');
+                    history.push('/category/category');
         }
       });
     }
-    console.log(state.categoryItems)
     
     return (
         <Wrapper>
