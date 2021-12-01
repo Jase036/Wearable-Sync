@@ -44,42 +44,10 @@ function reducer(state, action) {
         cart: [],
       };
     }
-    default:{
-      throw new Error(`Unrecognized action: ${action.type}`)
-    }
+
+    default:
+      throw new Error(`Unrecognized action: ${action.type}`);
   }
-  
-    //We load the items from DB using pagination
-    useEffect(() => {
-        const limit=20;
-        let skip= 20 * paginationIndex;
-            
-        setLoadingState()
-        fetch(`/api/all-products?skip=${skip}&limit=${limit}`)
-            .then(res => res.json())
-            .then(data => {
-            if (data.status !== 200) {
-                console.log(data)  
-            } else {
-                receiveItemInfoFromServer(data.data);
-                unsetLoadingState()}});
-        }, [paginationIndex]); // We want the fetch to run when the paginationIndex changes
-    
-        
-        
-    return (
-            <ItemContext.Provider value={{
-                state,
-                receiveItemInfoFromServer,
-                paginationIndex,
-                setPaginationIndex,
-                setLoadingState,
-                unsetLoadingState,
-                }}
-            >
-                {children}
-            </ItemContext.Provider>
-    )
 }
 
 export const ItemProvider = ({ children }) => {
