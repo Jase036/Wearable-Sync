@@ -10,6 +10,7 @@ import ShoppingCart from "./shoppingCart/ShoppingCart";
 import ItemDetails from './ItemDetails'
 import CheckOutForm from "./shoppingCart/CheckoutForm";
 
+import ErrorPage from "./ErrorPage";
 
 
 
@@ -33,6 +34,9 @@ function App() {
                 <CheckOutForm />
               </Route>
             
+              <Route path="/error">
+                <ErrorPage />
+              </Route>
             </Switch>
             </BrowserRouter>
     
