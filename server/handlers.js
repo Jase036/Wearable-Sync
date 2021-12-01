@@ -17,7 +17,6 @@ const client = new MongoClient(MONGO_URI, options);
 const db = client.db("Ecommerce");
 
 const getAllCompanies = async (req, res) => {
-
   //To paginate from server we use skip & limit as query parameters. In case they aren't sent, we default to skip 0 and limit 20.
   let { skip, limit } = req.query;
   skip ? (skip = Number(skip)) : (skip = 0);
@@ -45,7 +44,6 @@ const getAllCompanies = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
-  
   //To paginate from server we use skip & limit as query parameters. In case they aren't sent, we default to skip 0 and limit 20.
   let { skip, limit } = req.query;
   skip ? (skip = Number(skip)) : (skip = 0);
@@ -74,7 +72,6 @@ const getAllProducts = async (req, res) => {
 };
 
 const getCompanyById = async (req, res) => {
-
   //Transform _id string to number so we can use it to search for company _id
   const _id = Number(req.params._id);
 
@@ -98,7 +95,6 @@ const getCompanyById = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
-
   //Transform _id string to number so we can use it to search for product _id
   const _id = Number(req.params._id);
 
@@ -120,9 +116,8 @@ const getProductById = async (req, res) => {
 };
 
 const getProductsByCategory = async (req, res) => {
-  
   const category = req.params.category;
-  
+
   try {
     await client.connect();
     const products = await db
@@ -145,12 +140,10 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const addNewPurchase = async (req, res) => {
-  
-  const { firstName, lastName, address, phoneNumber, email} =
-    req.body;
-  
-    const newPurchase = req.body.purchaseInfo
-    
+  const { firstName, lastName, address, phoneNumber, email } = req.body;
+
+  const newPurchase = req.body.purchaseInfo;
+
   try {
     await client.connect();
     console.log("connected");
@@ -162,33 +155,31 @@ const addNewPurchase = async (req, res) => {
       return { ...purchase, purchaseId, date: new Date() };
     });
 
+    //check to see if user already exists so we add the purchase info to that user instead of creating a new document in the collection
     if (customersList.filter((e) => e.email === email).length > 0) {
-      //   const updateStock = await db.collection("items").updateOne(
-      //     { _id: Number(newPurchase._id) },
-      //     {
-      //       $inc: {
-      //         numInStock: -newPurchase.quantity,
-      //       },
-      //     }
-      //   );
-      //   console.log(updateStock);
-
-      const updatePurchaseInfo = await db.collection("customers").updateOne(
-        { email: email },
+      //update inventory numbers
+      const updateStock = await db.collection("items").updateOne(
+        { _id: Number(newPurchase._id) },
         {
           $push: {
             purchaseInfo: { $each: purchases },
           },
         }
       );
-      
-        
-      res.status(200).json({ status: 200, data: updatePurchaseInfo});
+
+      //add the purchase info to the user's array
+      const updatePurchaseInfo = await db
+        .collection("customers")
+        .updateOne(
+          { email: email },
+          { $push: { purchaseInfo: { ...newPurchase, purchaseId: uuidv4() } } }
+        );
+
+      res.status(200).json({ status: 200, data: updatePurchaseInfo });
 
       console.log(updatePurchaseInfo);
       res.status(200).json({ status: 200, data: updatePurchaseInfo });
     } else {
-      
       //if it's a new user we simple create the new document in Mongo
       const _id = uuidv4();
       const newEntry = await db.collection("customers").insertOne({
@@ -214,6 +205,41 @@ const addNewPurchase = async (req, res) => {
     res.status(500).json({ status: 500, error: err.message });
   }
 };
+const searchTerm = async (req, res) => {
+  const { searchTerm } = req.query;
+  let { skip, limit } = req.query;
+  // skip ? (skip = Number(skip)) : (skip = 0);
+  // limit ? (limit = Number(limit)) : (limit = 20);
+
+  try {
+    await client.connect();
+    //create a search index
+    // db.collection("items").getIndexes("EcommerceItemsIndex");
+    db.collection("items").createIndex({
+      name: "text",
+      category: "text",
+      body_location: "text",
+    });
+    console.log(searchTerm);
+
+    const query = { $text: { $search: "garmin" } };
+    const searchResult = await db.collection("items").find(query).toArray();
+    console.log(searchResult);
+
+    if (searchResult) {
+      res.status(200).json({ status: 200, data: searchResult });
+    } else {
+      res
+        .status(404)
+        .json({ status: 404, message: "No results found for your search" });
+    }
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ status: 500, error: err.message });
+  } finally {
+    client.close();
+  }
+};
 
 module.exports = {
   getAllCompanies,
@@ -222,4 +248,5 @@ module.exports = {
   getProductById,
   getProductsByCategory,
   addNewPurchase,
+  searchTerm,
 };
