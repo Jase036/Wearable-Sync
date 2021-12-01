@@ -59,7 +59,7 @@ const getAllProducts = async (req, res) => {
       .limit(limit)
       .toArray();
 
-    client.close();
+    await client.close();
 
     if (productsList.length !== 0) {
       res.status(200).json({ status: 200, data: productsList });
@@ -205,6 +205,7 @@ const addNewPurchase = async (req, res) => {
     res.status(500).json({ status: 500, error: err.message });
   }
 };
+
 const searchTerm = async (req, res) => {
   const { searchTerm } = req.query;
   let { skip, limit } = req.query;
@@ -241,6 +242,38 @@ const searchTerm = async (req, res) => {
   }
 };
 
+
+const getCategories = async (req, res) => {
+
+  try{ 
+
+      await client.connect();
+      console.log("connected!");
+      
+      const productsList = await db
+      .collection("items")
+      .find().project({category:1})
+      .toArray();
+
+      await client.close
+      let categories = [];
+      productsList.map(e => categories.push(e.category))
+      let uniqueArray = categories.filter((e, i, s) => s.indexOf(e) === i);
+      
+      if (uniqueArray) {
+        res.status(200).json({ status: 200, data: uniqueArray });
+      } else {
+        res
+          .status(404).json({ status: 404, message: "No results found for your search" });
+      }
+    
+  } catch (err) {
+    console.log(err.stack)
+      res.status(500).json({ status: 500, message: err.message });
+  }
+}
+
+
 module.exports = {
   getAllCompanies,
   getAllProducts,
@@ -248,5 +281,6 @@ module.exports = {
   getProductById,
   getProductsByCategory,
   addNewPurchase,
+  getCategories,
   searchTerm,
 };

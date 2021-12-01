@@ -10,6 +10,7 @@ const {
   getProductById,
   getProductsByCategory,
   addNewPurchase,
+  getCategories,
   searchTerm,
 } = require("./handlers");
 const PORT = 4000;
@@ -49,11 +50,15 @@ app.get("/api/product/:_id", getProductById);
 //api to get all products by category
 app.get("/api/products-by-category/:category", getProductsByCategory);
 
+// api to search products by name
+app.get("/api/searchterm", searchTerm);
+
+// api to get all categories
+app.get("/api/categories", getCategories);
+
 // api to add a new customer at checkout, or just add purchaseInfo for existing customers
 app.post("/api/add-new-purchase", addNewPurchase);
 
-// api to search products by name
-app.get("/api/searchterm", searchTerm);
 //api to get all products in a price category- stretch goal for later
 
 app.listen(PORT, () => console.info(`Listening on port ${PORT}`));
