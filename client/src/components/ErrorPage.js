@@ -1,8 +1,12 @@
 import React from "react";
+
+//styling
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
+//header and footer component imports
 import Header from "./Header";
 import Footer from "./Footer";
-import { NavLink } from "react-router-dom";
 
 const ErrorPage = () => {
   return (

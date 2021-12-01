@@ -1,8 +1,12 @@
 import React from "react";
+
+//styling and icons
 import styled from "styled-components";
+import { FaCheckCircle } from "react-icons/fa";
+
+//importing header and footer components
 import Footer from "./Footer";
 import Header from "./Header";
-import { FaCheckCircle } from "react-icons/fa";
 
 const ConfirmationPage = () => {
   return (
@@ -56,8 +60,7 @@ const OrderReceived = styled.h1`
 `;
 
 const OrderDetails = styled.h2`
-padding-bottom: 20px;
-`
-
+  padding-bottom: 20px;
+`;
 
 export default ConfirmationPage;

@@ -1,7 +1,12 @@
 import React from "react";
+
+//styling
 import styled from "styled-components";
+
+//importing footer and header components
 import Footer from "./Footer";
 import Header from "./Header";
+
 const About = () => {
   return (
       <>
@@ -29,7 +34,7 @@ const About = () => {
         <TeamImageContainer>
           <div>
             <img src={"../images/jace.png"} />
-            <Names>Jace</Names>
+            <Names>Jase</Names>
           </div>
           <div>
           <img src={"../images/Hasti.png"} />
@@ -68,7 +73,6 @@ const AboutContainer = styled.div`
   border-radius: 5px;
   position: absolute;
   left: 700px;
-  /* height: 450px; */
   width: 650px;
   top: 100px;
 `;
@@ -100,7 +104,6 @@ const Paragraph = styled.p`
 
 const TeamImageContainer = styled.div`
   display: flex;
-  /* align-items: center; */
   justify-content: space-evenly;
 `;
 

@@ -1,10 +1,15 @@
 import React from "react";
+
+//Styling and icons
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { SiTiktok } from "react-icons/si";
+import { BsFacebook, BsTwitter, BsReddit } from "react-icons/bs";
+
+//Scroll to top and logout button functions
 import ScrollToTop from "./ScrollToTop";
 import LogoutButton from "./Login/LogoutButton";
-import { BsFacebook, BsTwitter, BsReddit } from "react-icons/bs";
-import { SiTiktok } from "react-icons/si";
+
 const Footer = () => {
   return (
     <>
@@ -29,9 +34,6 @@ const Footer = () => {
 };
 
 const Wrapper = styled.div`
-  /* position: sticky;
-  bottom: 10px; */
-  /* width: 100%; */
   align-items: center;
   display: flex;
   justify-content: space-around;
