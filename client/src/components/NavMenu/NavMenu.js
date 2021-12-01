@@ -2,12 +2,15 @@ import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { ItemContext } from '../ItemContext';
+import { useHistory } from 'react-router';
 
 const NavMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [categories, setCategories] = useState([])
-    const { state, setLoadingState, unsetLoadingState } = useContext(ItemContext);
+    const { state, setLoadingState, unsetLoadingState, clearItemState, receiveCategoryItemInfoFromServer } = useContext(ItemContext);
     
+    let history = useHistory()
+
     //this will deploy the dropdown menu
     const toggling = () => setIsOpen(!isOpen);
 
@@ -25,9 +28,21 @@ const NavMenu = () => {
     },[])
 
     const handleClick = (category) => {
-        console.log(category)
+        setLoadingState();
+        fetch(`/api/products-by-category/${category}`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.status !== 200) {
+                    console.log(data);
+                } else {
+                    console.log(data);
+                    receiveCategoryItemInfoFromServer(data.data);
+                    unsetLoadingState()
+                    history.push('/category');
+        }
+      });
     }
-
+    console.log(state.categoryItems)
     
     return (
         <Wrapper>
@@ -71,9 +86,9 @@ const Wrapper = styled.div`
 const DropDownContainer = styled("div")`
     z-index:100;
     margin-left: 25px;
+    text-align: center;
 `
 const DropDownHeader = styled("div")`
-
 font-size: 25px;
 color: #fff;
 text-align: center;
@@ -84,6 +99,7 @@ cursor: pointer;
 const DropDownListContainer = styled("div")`
 position:absolute;
 z-index:100;
+
 `;
 
 const DropDownList = styled("ul")`
@@ -92,15 +108,13 @@ margin: 0;
 background: rgba(220, 220, 208, 0.7);
 box-sizing: border-box;
 box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
-
-&:first-child {
-padding-top: 0.8em;
-}
+display: flex;
+flex-direction: row;
 `;
 
 const ListItem = styled("li")`
 list-style: none;
-margin-bottom: 0.8em;
+margin: 0 15px;
 padding: 5px;
 color: #fff;
 text-align: center;

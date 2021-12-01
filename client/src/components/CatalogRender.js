@@ -1,5 +1,5 @@
-import React, { useContext, useEffect} from "react";
-
+import React, { useContext } from "react";
+import { useParams } from "react-router";
 import { ItemContext } from "./ItemContext";
 import LoadingSpinner from "./LoadingSpinner";
 
@@ -11,11 +11,16 @@ import { Link } from "react-router-dom";
 
 const CatalogRender = () => {
   const { state, paginationIndex, setPaginationIndex} = useContext(ItemContext);
-
-
-
+  const type = useParams().type;
+  let itemArray = []
   
-
+  if(type === "category" && state.categoryItems.length > 0 ){
+    itemArray = state.categoryItems
+  } else if (type === "search" && state.searchItems.length > 0) {
+    itemArray = state.searchItems
+  } else {
+    itemArray = state.items
+  }
 
 
   const handleClick = (item) =>{
@@ -42,7 +47,7 @@ const CatalogRender = () => {
       <>
         <Divider />
         <Wrapper>
-          {state.items.map((item) => {
+          {itemArray.map((item) => {
             return (
               <ProductContainer key={item._id} to={`/item/${item._id}`}>
                 <Para>{item.name}</Para>
@@ -56,11 +61,13 @@ const CatalogRender = () => {
             );
           })}
         </Wrapper>
+        
         <PaginationContainer>
           <PaginationButton onClick={handlePaginationClick}>
             Load More
           </PaginationButton>
         </PaginationContainer>
+        
       </>
     );
   }

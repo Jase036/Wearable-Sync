@@ -5,6 +5,7 @@ export const ItemContext = createContext(null);
 const initialState = {
   hasLoaded: false,
   items: [],
+  categoryItems: [],
   cart: [1],
   
 };
@@ -44,7 +45,12 @@ function reducer(state, action) {
         cart: [],
       };
     }
-
+    case "receive-category-item-info-from-server": {
+      return {
+        ...state,
+        categoryItems: action.categoryItems,
+      };
+    }
 
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
@@ -55,11 +61,19 @@ export const ItemProvider = ({ children }) => {
   const [paginationIndex, setPaginationIndex] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
 
+ 
+
   //the item fetch dispatch function set up for pagination. The existing array is duplicated with spread and the concatenated with the new incoming data.
   const receiveItemInfoFromServer = (data) => {
     dispatch({
       type: "receive-item-info-from-server",
       items: [...state.items].concat(data),
+    });
+  };
+  const receiveCategoryItemInfoFromServer = (data) => {
+    dispatch({
+      type: "receive-category-item-info-from-server",
+      categoryItems: [...state.categoryItems].concat(data),
     });
   };
 
@@ -84,6 +98,7 @@ export const ItemProvider = ({ children }) => {
       hasLoaded: true,
     });
   };
+
 
   //We load the items from DB using pagination
   useEffect(() => {
@@ -113,7 +128,8 @@ export const ItemProvider = ({ children }) => {
         setPaginationIndex,
         clearPurchase,
         setLoadingState,
-        unsetLoadingState
+        unsetLoadingState,
+        receiveCategoryItemInfoFromServer
       }}
     >
       {children}
