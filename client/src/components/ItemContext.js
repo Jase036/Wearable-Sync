@@ -5,9 +5,17 @@ export const ItemContext = createContext(null);
 const initialState = {
   hasLoaded: false,
   items: [],
+<<<<<<< Updated upstream
   categoryItems: [],
   searchItems: [],
   cart: [1],
+<<<<<<< HEAD
+=======
+=======
+  cart: [],
+>>>>>>> Stashed changes
+  
+>>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
 };
 
 function reducer(state, action) {
@@ -96,6 +104,16 @@ export const ItemProvider = ({ children }) => {
     });
   };
 
+
+  const addToCart = ()=>{
+   dispatch({
+   
+    type:"add-to-shopping-cart"
+
+   });
+  }
+
+
   //Loading state will allow us to use a loading component during async operations in other components
   const setLoadingState = () => {
     dispatch({
@@ -141,8 +159,16 @@ export const ItemProvider = ({ children }) => {
         clearPurchase,
         setLoadingState,
         unsetLoadingState,
+<<<<<<< HEAD
         receiveCategoryItemInfoFromServer,
         receiveSearchItemInfoFromServer,
+=======
+<<<<<<< Updated upstream
+        receiveCategoryItemInfoFromServer
+=======
+        addToCart
+>>>>>>> Stashed changes
+>>>>>>> 47231f5f840ce2c7ea3817ca99df5e428d635af1
       }}
     >
       {children}
