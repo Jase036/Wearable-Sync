@@ -162,7 +162,7 @@ const addNewPurchase = async (req, res) => {
       
       
       const updateStock = await db.collection("items").updateOne(
-        { _id: Number(newPurchase._id) },
+        { _id: Number(newPurchase.productId) },
         {
           $push: {
             purchaseInfo: { $each: purchases },
@@ -175,7 +175,7 @@ const addNewPurchase = async (req, res) => {
         .collection("customers")
         .updateOne(
           { email: email },
-          { $push: { "purchaseInfo": {...newPurchase, purchaseId: uuidv4()} } })
+          { $push: { "purchaseInfo": {...newPurchase, _id: uuidv4()} } })
         
       res.status(200).json({ status: 200, data: updatePurchaseInfo});
 
@@ -195,7 +195,7 @@ const addNewPurchase = async (req, res) => {
     }
     newPurchase.map(async (purchase) => {
       const updateStock = await db.collection("items").updateOne(
-        { _id: Number(purchase._id) },
+        { _id: Number(purchase.productId) },
         {
           $inc: {
             numInStock: -purchase.quantity,

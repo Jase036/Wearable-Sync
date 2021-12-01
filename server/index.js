@@ -9,7 +9,7 @@ const {
   getCompanyById,
   getProductById,
   getProductsByCategory,
-  addNewCustomer,
+  addNewPurchase,
 } = require("./handlers");
 const PORT = 4000;
 const app = express();
