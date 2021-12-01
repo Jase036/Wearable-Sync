@@ -24,8 +24,13 @@ const getAllCompanies = async (req, res) => {
 
   try {
     await client.connect();
-    const companiesList = await db.collection("companies").find().skip(skip).limit(limit).toArray();
-    
+    const companiesList = await db
+      .collection("companies")
+      .find()
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
     client.close();
 
     if (companiesList.length !== 0) {
@@ -135,51 +140,64 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const addNewCustomer = async (req, res) => {
-  
-  const { firstName, lastName, address, phoneNumber, email} =
-    req.body;
-  
-    const newPurchase = req.body.purchaseInfo
-  console.log(newPurchase)
-    
-  
+  const { firstName, lastName, address, phoneNumber, email } = req.body;
+
+  const newPurchase = req.body.purchaseInfo;
+  console.log(newPurchase);
+
   try {
     await client.connect();
     console.log("connected");
-    
+
     const customersList = await db.collection("customers").find().toArray();
-        
-    if (customersList.filter(e => e.email === email).length > 0) {
-      
-      const updateStock = await db.collection("items").updateOne(
-        { _id: Number(newPurchase._id) },
+
+    const purchaseId = uuidv4();
+    const purchases = newPurchase.map((purchase) => {
+      return { ...purchase, purchaseId, date: new Date() };
+    });
+
+    if (customersList.filter((e) => e.email === email).length > 0) {
+      //   const updateStock = await db.collection("items").updateOne(
+      //     { _id: Number(newPurchase._id) },
+      //     {
+      //       $inc: {
+      //         numInStock: -newPurchase.quantity,
+      //       },
+      //     }
+      //   );
+      //   console.log(updateStock);
+
+      const updatePurchaseInfo = await db.collection("customers").updateOne(
+        { email: email },
         {
-          $inc: {
-            "numInStock": -newPurchase.quantity,
+          $push: {
+            purchaseInfo: { $each: purchases },
           },
         }
       );
-        console.log(updateStock);
 
-      const updatePurchaseInfo = await db
-        .collection("customers")
-        .updateOne(
-          { email: email },
-          { $push: { "purchaseInfo": {...newPurchase, purchaseId: uuidv4()} } })
-        
-        
-        console.log(updatePurchaseInfo)
-      res.status(200).json({ status: 200, data: updatePurchaseInfo});
-
+      console.log(updatePurchaseInfo);
+      res.status(200).json({ status: 200, data: updatePurchaseInfo });
     } else {
-      
       const _id = uuidv4();
-      const newEntry = await db
-        .collection("customers")
-        .insertOne({ _id: _id, purchaseInfo: [{...newPurchase, "purchaseId": uuidv4()}] });
+      const newEntry = await db.collection("customers").insertOne({
+        _id: _id,
+        ...req.body,
+        purchaseInfo: [{ ...purchases }],
+      });
 
       res.status(200).json({ status: 200, data: newEntry });
     }
+    newPurchase.map(async (purchase) => {
+      const updateStock = await db.collection("items").updateOne(
+        { _id: Number(purchase._id) },
+        {
+          $inc: {
+            numInStock: -purchase.quantity,
+          },
+        }
+      );
+    });
   } catch (err) {
     console.log(err.stack);
     res.status(500).json({ status: 500, error: err.message });
