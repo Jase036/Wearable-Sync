@@ -10,7 +10,7 @@ import SearchError from "../components/Navbar/SearchError";
 import styled from "styled-components";
 
 const CatalogRender = () => {
-  const { state, paginationIndex, setPaginationIndex } =
+  const { state, paginationIndex, setPaginationIndex, addPurchase } =
     useContext(ItemContext);
   const type = useParams().type;
   let history = useHistory();
@@ -27,6 +27,7 @@ const CatalogRender = () => {
 
   const handleClick = (ev, item) => {
     ev.stopPropagation();
+    addPurchase([{product_id: item._id, quantity: 1 }])
   };
 
   const handleProductDetail = (ev, item) => {
