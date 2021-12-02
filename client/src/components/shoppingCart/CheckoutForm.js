@@ -7,7 +7,7 @@ import ShoppingCart from "./ShoppingCart";
 
 //styling
 import styled from "styled-components";
-import checkOut from "../../assets/checkout.jpg";
+import checkOut from "../../assets/checkOut.jpg";
 
 
 
