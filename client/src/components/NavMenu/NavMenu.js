@@ -13,9 +13,7 @@ const NavMenu = () => {
 
     //this will deploy the dropdown menu
     const toggling = () => setIsOpen(!isOpen);
-
-    useEffect(()=>{
-        setLoadingState()
+    if (categories.length === 0) {
         fetch('/api/categories')
         .then(res => res.json())
         .then(data => {
@@ -24,9 +22,14 @@ const NavMenu = () => {
                 
             } else {
                 setCategories(data.data);
-                unsetLoadingState()}});
+            }});
+    }
+    
+    // useEffect(()=>{
+        
+        
 
-    },[]) // eslint-disable-line
+    // },[]) // eslint-disable-line
 
     const handleClick = (category) => {
         setLoadingState();
