@@ -189,9 +189,12 @@ export const ItemProvider = ({ children }) => {
 
   const removePurchase = (data) => {
     let updateArray = [];
-
+    console.log(data);
+    if (state.cart.length === 1) {
+      updateArray = [];
+    } else {
     updateArray = [...state.cart].filter(item => item.product_id === data[0].product_id )
-      
+    }  
     window.localStorage.setItem("cart", JSON.stringify(updateArray));
     
     dispatch({
