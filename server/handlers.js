@@ -250,9 +250,6 @@ const searchTerm = async (req, res) => {
   const db = client.db("Ecommerce");
   
   const { searchTerm } = req.query;
-  // let { skip, limit } = req.query;
-  // skip ? (skip = Number(skip)) : (skip = 0);
-  // limit ? (limit = Number(limit)) : (limit = 20);
 
   try {
     await client.connect();
@@ -263,18 +260,20 @@ const searchTerm = async (req, res) => {
       category: "text",
       body_location: "text",
     });
-    console.log(searchTerm);
 
     const query = { $text: { $search: searchTerm } };
     const searchResult = await db.collection("items").find(query).toArray();
-    console.log(searchResult);
 
-    if (searchResult) {
+    if (searchResult.length > 0) {
       res.status(200).json({ status: 200, data: searchResult });
     } else {
       res
         .status(404)
-        .json({ status: 404, message: "No results found for your search" });
+        .json({
+          status: 404,
+          data: searchResult,
+          message: "No results found for your search",
+        });
     }
   } catch (err) {
     console.log(err.message);

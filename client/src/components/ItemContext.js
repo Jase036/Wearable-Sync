@@ -7,7 +7,7 @@ const initialState = {
   items: [],
   categoryItems: [],
   searchItems: [],
-  cart: [], 
+  cart: [],
 };
 
 function reducer(state, action) {
@@ -34,12 +34,10 @@ function reducer(state, action) {
 
     case "add-to-shopping-cart": {
       return {
-        ...state, 
+        ...state,
         cart: action.cart,
-      }
-
       };
-    
+    }
 
     case "clear-shopping-cart": {
       return {
@@ -61,7 +59,6 @@ function reducer(state, action) {
         searchItems: action.searchItems,
       };
     }
-    
 
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
@@ -71,7 +68,6 @@ function reducer(state, action) {
 export const ItemProvider = ({ children }) => {
   const [paginationIndex, setPaginationIndex] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
-
 
   //the item fetch dispatch function set up for pagination. The existing array is duplicated with spread and the concatenated with the new incoming data.
   const receiveItemInfoFromServer = (data) => {
@@ -96,54 +92,50 @@ export const ItemProvider = ({ children }) => {
   };
 
   const clearPurchase = () => {
-    window.localStorage.clear('cart')
+    window.localStorage.clear("cart");
     dispatch({
       type: "clear-shopping-cart",
       cart: [],
-      
     });
   };
 
-
   const addPurchase = (data) => {
     let updateArray = [];
-    
-    if(state.cart.length === 0) {
+
+    if (state.cart.length === 0) {
       updateArray = [...state.cart].concat(data);
-      window.localStorage.setItem("cart", JSON.stringify(updateArray))  
-    } else if ([...state.cart].filter((item) => item.product_id === data[0].product_id).length === 0) {
-      updateArray = [...state.cart].concat(data)
-      window.localStorage.setItem("cart", JSON.stringify(updateArray))  
+      window.localStorage.setItem("cart", JSON.stringify(updateArray));
+    } else if (
+      [...state.cart].filter((item) => item.product_id === data[0].product_id)
+        .length === 0
+    ) {
+      updateArray = [...state.cart].concat(data);
+      window.localStorage.setItem("cart", JSON.stringify(updateArray));
     } else {
       updateArray = [...state.cart].map((item) => {
-        if(item.product_id === data[0].product_id) {
-          return {...item, quantity: item.quantity + 1} 
+        if (item.product_id === data[0].product_id) {
+          return { ...item, quantity: item.quantity + 1 };
         } else {
-          return item
+          return item;
         }
-      })
-      window.localStorage.setItem("cart", JSON.stringify(updateArray))  
+      });
+      window.localStorage.setItem("cart", JSON.stringify(updateArray));
     }
-      
 
     dispatch({
       type: "add-to-shopping-cart",
-      cart: updateArray
-      })
-
-  }
-
+      cart: updateArray,
+    });
+  };
 
   const removePurchase = () => {
     dispatch({
       type: "remove-from-shopping-cart",
-      cart: [...state.cart].filter((item) => item._id !== state.cart.product_id)
-
-  })
-}
-
-  
-
+      cart: [...state.cart].filter(
+        (item) => item._id !== state.cart.product_id
+      ),
+    });
+  };
 
   //Loading state will allow us to use a loading component during async operations in other components
   const setLoadingState = () => {
@@ -165,9 +157,9 @@ export const ItemProvider = ({ children }) => {
   useEffect(() => {
     const limit = 20;
     let skip = 20 * paginationIndex;
-    const cartStorage = window.localStorage.getItem('cart')
+    const cartStorage = window.localStorage.getItem("cart");
     if (cartStorage) {
-      addPurchase(JSON.parse(cartStorage))
+      addPurchase(JSON.parse(cartStorage));
     }
 
     setLoadingState();

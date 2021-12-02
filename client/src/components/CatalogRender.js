@@ -4,36 +4,35 @@ import { ItemContext } from "./ItemContext";
 import LoadingSpinner from "./LoadingSpinner";
 import { useHistory } from "react-router";
 
+import SearchError from "../components/Navbar/SearchError";
 
 //styling
 import styled from "styled-components";
-
 
 const CatalogRender = () => {
   const { state, paginationIndex, setPaginationIndex } =
     useContext(ItemContext);
   const type = useParams().type;
   let history = useHistory();
-  
-  let itemArray = []
-  
-  if(type === "category" && state.categoryItems.length > 0 ){
-    itemArray = state.categoryItems
+
+  let itemArray = [];
+
+  if (type === "category" && state.categoryItems.length > 0) {
+    itemArray = state.categoryItems;
   } else if (type === "search" && state.searchItems.length > 0) {
     itemArray = state.searchItems;
   } else {
     itemArray = state.items;
   }
 
-
-  const handleClick = (ev, item) =>{
+  const handleClick = (ev, item) => {
     ev.stopPropagation();
-  }
+  };
 
-  const handleProductDetail = (ev, item) =>{
+  const handleProductDetail = (ev, item) => {
     ev.stopPropagation();
-    history.push(`/item/${item._id}`)
-  }
+    history.push(`/item/${item._id}`);
+  };
 
   //We add one to the pagination index, this will cause a fetch and re-render.
   const handlePaginationClick = () => {
@@ -54,7 +53,10 @@ const CatalogRender = () => {
         <Wrapper>
           {itemArray.map((item) => {
             return (
-              <ProductContainer key={item._id} onClick={(ev) => handleProductDetail(ev, item)}>
+              <ProductContainer
+                key={item._id}
+                onClick={(ev) => handleProductDetail(ev, item)}
+              >
                 <Para>{item.name}</Para>
                 <ProductImg alt="product" src={item.imageSrc} />
                 <Overlay>
@@ -74,28 +76,29 @@ const CatalogRender = () => {
             );
           })}
         </Wrapper>
-        {!type &&
-        <PaginationContainer>
-          <PaginationButton onClick={handlePaginationClick}>
-            Load More
-          </PaginationButton>
-        </PaginationContainer>
-        }
+        {!type && (
+          <PaginationContainer>
+            <PaginationButton onClick={handlePaginationClick}>
+              Load More
+            </PaginationButton>
+          </PaginationContainer>
+        )}
       </>
     );
   }
 };
 
 const Button = styled.div`
-z-index: 49;
-cursor:pointer;
-height:20px;
-position: absolute;
-top: 360px;
-left: 150px;
-cursor: pointer;
-font-weight: 700;
-` 
+  z-index: 49;
+  cursor: pointer;
+  height: 20px;
+  position: absolute;
+  top: 360px;
+  left: 150px;
+  cursor: pointer;
+  font-weight: 700;
+  cursor: pointer;
+`;
 
 const Overlay = styled.div`
   position: absolute;
@@ -138,7 +141,7 @@ const ProductContainer = styled.div`
   height: 400px;
   padding: 50px;
   position: relative;
-  border-radius:20px;
+  border-radius: 20px;
   text-decoration: none;
   color: black;
   margin-bottom: 30px;
@@ -165,7 +168,7 @@ const PaginationButton = styled.button`
   font-weight: 600;
   border: none;
   font-size: 20px;
-  &:hover{
+  &:hover {
     transition: all 0.3s ease-in-out;
     background-color: var(--cool-gray);
     color: white;
@@ -177,6 +180,6 @@ const OutOfStock = styled.p`
   top: 360px;
   left: 150px;
   font-weight: 700;
-  `;
+`;
 
 export default CatalogRender;

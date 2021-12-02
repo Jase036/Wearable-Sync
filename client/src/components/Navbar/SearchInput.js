@@ -2,6 +2,8 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
 import { MdClear } from "react-icons/md";
+import SearchError from "../Navbar/SearchError";
+// import Search from "../Search";
 
 import { ItemContext } from "../ItemContext";
 import { set } from "date-fns/esm";
@@ -9,7 +11,7 @@ import { set } from "date-fns/esm";
 const SearchInput = () => {
   const { state, receiveSearchItemInfoFromServer } = useContext(ItemContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchStatus, setSearchStatus] = useState(null);
   let history = useHistory();
 
   const handleSearchChange = (e) => {
@@ -23,10 +25,27 @@ const SearchInput = () => {
       fetch(`/api/searchterm?searchTerm=${searchTerm}`)
         .then((res) => res.json())
         .then((data) => {
-          receiveSearchItemInfoFromServer(data.data);
-          history.push("/search/search");
+          console.log(data);
+          setSearchStatus(data.status);
+          if (data.status !== 200) {
+            history.push("/searcherror");
+          } else {
+            receiveSearchItemInfoFromServer(data.data);
+            history.push("/search/search");
+          }
         });
     }
+  };
+
+  const handleSubmit = () => {
+    fetch(`/api/searchterm?searchTerm=${searchTerm}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setSearchStatus(data.status);
+        receiveSearchItemInfoFromServer(data.data);
+        history.push("/search/search");
+      });
   };
 
   return (
@@ -40,18 +59,21 @@ const SearchInput = () => {
         aria-label="Search Wearable Sync Store"
       ></Input>
       <Button onClick={handleClear}>Clear</Button>
-      <Button onClick={handleKeyDown}>Submit</Button>
+      <Button onClick={handleSubmit}>Submit</Button>
+      {/* <Search searchStatus={searchStatus} /> */}
     </Container>
   );
 };
+
 const Input = styled.input`
   height: 50px;
-  width: 450px;
+  width: 550px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 20px;
   font-family: var(--font-family);
   background-color: var(--sage);
   border: solid 1px white;
+  outline: none;
 `;
 const Container = styled.div`
   background: none;

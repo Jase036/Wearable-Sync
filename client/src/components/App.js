@@ -11,6 +11,7 @@ import ItemDetailPage from "./ItemDetailPage";
 import CheckOutForm from "./shoppingCart/CheckoutForm";
 import Category from "./Category";
 import Search from "./Search";
+import SearchError from "../components/Navbar/SearchError";
 
 import ErrorPage from "./ErrorPage";
 import ConfirmationPage from "./ConfirmationPage";
@@ -46,6 +47,9 @@ function App() {
 
           <Route path="/error">
             <ErrorPage />
+          </Route>
+          <Route path="/searcherror">
+            <SearchError />
           </Route>
           <Route path="/confirmation">
             <ConfirmationPage />
