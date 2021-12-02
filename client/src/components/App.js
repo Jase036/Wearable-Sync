@@ -43,15 +43,13 @@ function App() {
           <Route exact path="/shopping-cart">
             <ShoppingCart/>
           </Route>
-
-
           <Route path="/error">
             <ErrorPage />
           </Route>
           <Route path="/searcherror">
             <SearchError />
           </Route>
-          <Route path="/confirmation">
+          <Route path="/confirmation/:id">
             <ConfirmationPage />
           </Route>
         </Switch>

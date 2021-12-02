@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+
+import { ItemContext } from "../ItemContext";
 
 //styling
 import styled from "styled-components";
@@ -6,42 +9,39 @@ import banner from "../../assets/banner1.jpeg";
 import Carousel from "react-elastic-carousel";
 
 const Banner = () => {
-  return (
-    <>
-      <BkgImg />
-      <Intro>
-        <Carousel focusOnSelect={true} itemsToShow={1}>
-          <div>
-            <Para>
-              <span>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </span>
-              <br />
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
-            </Para>
-            <Button>Shop Now</Button>
-          </div>
+  const {state} = useContext(ItemContext)
 
-          <div>
-            <Para>
-              <span>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry.
-              </span>
-              <br />
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
-            </Para>
-            <Button>Shop Now</Button>
-          </div>
-        </Carousel>
-      </Intro>
-    </>
-  );
+  if (!state.hasLoaded) {
+    return <p></p>
+  }
+  else {
+    let featured = [...state.items].sort(() => Math.random() - Math.random()).slice(0,3)
+
+    return (
+      <>
+        <BkgImg />
+        <Intro>
+          <Carousel focusOnSelect={true} itemsToShow={1}>
+            
+              { featured.map(item => {
+                return(
+                  <div key={item._id}>
+                  <Para>
+                  <Image alt="featured product" src={item.imageSrc}/>
+                  <span>
+                  {item.name}
+                  </span>
+                </Para>
+                <ShopLink to={`/item/${item._id}`}>Shop Now</ShopLink>
+                </div>
+                )
+              })
+              }
+          </Carousel>
+        </Intro>
+      </>
+    );
+  }
 };
 
 export default Banner;
@@ -49,10 +49,10 @@ export default Banner;
 
 
 
-const Button = styled.button`
+const ShopLink = styled(Link)`
   margin-top: 30px;
   background: none;
-  padding: 20px 40px;
+  padding: 20px 20px;
   border-radius: 10px;
   border: solid var(--sage) 2px;
   display: block;
@@ -61,8 +61,10 @@ const Button = styled.button`
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 20px;
-  pointer:cursor;
   cursor: pointer;
+  width: 150px;
+  text-decoration: none;
+  text-align: center;
 
   transition: 400ms ease;
 
@@ -74,14 +76,16 @@ const Button = styled.button`
   }
 `;
 
-const Para = styled.p`
+const Para = styled.div`
   font-size: 20px;
   padding: 10px;
   margin-bottom: 30px;
   font-family: var(--font-family);
   color: var(--sage);
   line-height: 1.5;
-  text-align:center;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
 `;
 
 const Intro = styled.div`
@@ -101,3 +105,9 @@ const BkgImg = styled.div`
   background-size: cover;
   position: relative;
 `;
+
+const Image = styled.img`
+  max-width:200px;
+  height:auto;
+  display:block;
+`

@@ -1,6 +1,9 @@
 import Address from "ipaddr.js";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ItemContext } from "../ItemContext";
+import { useHistory } from "react-router";
+
 
 //children
 import ShoppingCart from "./ShoppingCart";
@@ -14,6 +17,8 @@ import checkOut from "../../assets/checkOut.jpg";
 // there are 2 piece of info with quantity, productId:""
 
 const CheckOutForm = () => {
+  let history = useHistory();
+  const { state, purchaseInfo, setPurchaseInfo, clearPurchase } = useContext(ItemContext);
   
   let year = new Date().getYear().toString()
   let currentYear = Number(year.substring(1))
@@ -22,31 +27,25 @@ const CheckOutForm = () => {
   let month = new Date().getMonth();
   let currentMonth = month + 1;
   
-  const [clientInfo, setClientInfo] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNum: "",
-    email: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    province: "",
-    creditCardNum: "",
-    expiryM: "",
-    expiryY: "",
-  });
+  const { user, isAuthenticated } = useAuth0();
 
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  useEffect (() => {
+    if (isAuthenticated) {
+      setPurchaseInfo({ ...purchaseInfo, firstName: user.given_name, lastName: user.family_name, email: user.email })
+    }
+    },[]) // eslint-disable-line
 
   const getInfo = (ev) => {
-    setClientInfo({ ...clientInfo, [ev.target.id]: ev.target.value });
+    setPurchaseInfo({ ...purchaseInfo, [ev.target.id]: ev.target.value });
 
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
 
-    if(clientInfo.expiryY < currentYear && clientInfo.expiryM < currentMonth){ window.alert("your card is expired") }
+    let checkOutInfo = {...purchaseInfo, cart: state.cart}
+
+    if(purchaseInfo.expiryY < currentYear && purchaseInfo.expiryM < currentMonth){ window.alert("your card is expired") }
 
     fetch("/api/add-new-purchase", {
       method: "POST",
@@ -54,7 +53,7 @@ const CheckOutForm = () => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(clientInfo),
+      body: JSON.stringify(checkOutInfo),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -62,8 +61,9 @@ const CheckOutForm = () => {
         if (data.status !== 200) {
           return <h1>please fill the missing info</h1>;
         } else {
-          JSON.stringify(data.data);
-          //   history.push("/confirmed")
+          window.localStorage.setItem("checkOutInfo", JSON.stringify(checkOutInfo));
+          clearPurchase()
+          history.push(`/confirmation/${data.data}`)
         }
       });
   };
@@ -81,7 +81,7 @@ const CheckOutForm = () => {
             type="text"
             onChange={getInfo}
             id="firstName"
-            value={isAuthenticated ? user.given_name : clientInfo.firstName}
+            value={purchaseInfo.firstName}
             placeholder="First Name"
             required
           ></Input>
@@ -92,7 +92,7 @@ const CheckOutForm = () => {
             type="text"
             onChange={getInfo}
             id="lastName"
-            value={isAuthenticated ? user.family_name : clientInfo.lastName}
+            value={purchaseInfo.lastName}
             placeholder="Last Name"
             required
           ></Input>
@@ -101,7 +101,7 @@ const CheckOutForm = () => {
           Phone Number:
           <Input
             type="tel"
-            value={clientInfo.phoneNum}
+            value={purchaseInfo.phoneNum}
             id="phoneNum"
             onChange={getInfo}
             placeholder="Phone Number"
@@ -112,7 +112,7 @@ const CheckOutForm = () => {
           email:
           <Input
             type="email"
-            value={isAuthenticated ? user.email : clientInfo.email}
+            value={purchaseInfo.email}
             id="email"
             onChange={getInfo}
             placeholder="Last Name"
@@ -123,7 +123,7 @@ const CheckOutForm = () => {
           Address:
           <Input
             type="text"
-            value={clientInfo.address}
+            value={purchaseInfo.address}
             id="address"
             onChange={getInfo}
             placeholder="Address"
@@ -134,7 +134,7 @@ const CheckOutForm = () => {
           City:
           <Input
             type="text"
-            value={clientInfo.city}
+            value={purchaseInfo.city}
             id="city"
             onChange={getInfo}
             placeholder="City"
@@ -145,7 +145,7 @@ const CheckOutForm = () => {
           Postal Code:
           <Input
             type="text"
-            value={clientInfo.postalCode}
+            value={purchaseInfo.postalCode}
             id="postalCode"
             onChange={getInfo}
             placeholder="postal code"
@@ -155,14 +155,14 @@ const CheckOutForm = () => {
         <Label>
           <Select
             onChange={getInfo}
-            value={clientInfo.province}
+            value={purchaseInfo.province}
             id="province"
             required
           >
-            <option value disabled selected>
+            <option value disabled >
               Province
             </option>
-            <option value="AB">Alberta</option>
+            <option defaultValue="AB" >Alberta</option>
             <option value="BC">British Colombia</option>
             <option value="MB">Manitoba</option>
             <option value="NB">New Brunswick</option>
@@ -179,7 +179,7 @@ const CheckOutForm = () => {
         <Label>
           Credit card:
           <Input
-            value={clientInfo.creditCardNum}
+            value={purchaseInfo.creditCardNum}
             id="creditCardNum"
             onChange={getInfo}
             type="text"
@@ -190,7 +190,7 @@ const CheckOutForm = () => {
         <Label>
           Expiry:
           <Expiry
-            value={clientInfo.expiryM}
+            value={purchaseInfo.expiryM}
             id="expiryM"
             onChange={getInfo}
             type="text"
@@ -202,7 +202,7 @@ const CheckOutForm = () => {
           />
           <span> /</span>
           <Expiry
-            value={clientInfo.expiryY}
+            value={purchaseInfo.expiryY}
             id="expiryY"
             onChange={getInfo}
             type="text"

@@ -15,16 +15,6 @@ const ShoppingCart = ({ checkOut }) => {
   const { state, clearPurchase } = useContext(ItemContext);
   const { cart } = state;
 
-  // useEffect(() => {
-  //   let index = cart.length === 0 ? 0 : cart.length - 1;
-  //   fetch(`/api/product/${cart[index].product_id}`)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     console.log(data.data)
-  //     setCartItems([...cartItems].push(data.data))
-  //   })
-  // },[cart])
-
   useEffect(() => {
     fetch("/api/cart-items/", {
       method: "POST",
@@ -33,12 +23,12 @@ const ShoppingCart = ({ checkOut }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
+        
         setCartItems(data.data);
       });
   }, [cart]);
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   // calc subtotal
   let subtotal = 0;
@@ -51,7 +41,7 @@ const ShoppingCart = ({ checkOut }) => {
   if (cart.length === 0) {
     return (
       <Wrapper>
-        <Title>Cart Summery</Title>
+        <Title>Cart Summary</Title>
         <h1>your cart is empty</h1>
       </Wrapper>
     );
@@ -61,11 +51,11 @@ const ShoppingCart = ({ checkOut }) => {
         <Title>Cart Summary</Title>
         {cartItems.map((item) => {
           const itmCost = item.price.slice(1,).split(",").join("");
-          console.log(itmCost)
+          // console.log(itmCost)
           subtotal += itmCost * item.quantity
-          console.log(subtotal)
+          // console.log(subtotal)
 
-          return <CartItems key={item.id} item={item} cart={cart} />;
+          return <CartItems key={item._id} item={item} cart={cart} />;
         })}
 
         <div>
@@ -77,7 +67,7 @@ const ShoppingCart = ({ checkOut }) => {
         {checkOut !== true ? (
           <div>
             <Button onClick={clearPurchase}>Clear</Button>
-            <Checkout onClick={checkOutForm}>Check out</Checkout>
+            <Checkout onClick={()=> checkOutForm()}>Check out</Checkout>
           </div>
         ) : (
           <div>

@@ -1,4 +1,6 @@
-import React from "react";
+import React,{ useEffect } from "react";
+import { useParams } from "react-router";
+
 
 //styling and icons
 import styled from "styled-components";
@@ -11,7 +13,20 @@ import Header from "./Header";
 //date formatter
 import { format } from "date-fns"
 
+
 const ConfirmationPage = () => {
+  const {id} = useParams()
+  let purchaseInfo = JSON.parse(window.localStorage.getItem("checkOutInfo"))
+  
+  useEffect(() => {
+    
+    return () => {
+      window.localStorage.clear();
+    };
+    }, []);
+  
+  
+  
   return (
     <>
       <Header />
@@ -21,18 +36,17 @@ const ConfirmationPage = () => {
         <ConfirmationContainer>
           <OrderDetails>Order Details: </OrderDetails>
           <OrderNumber>
-            <Paragraph>order number: (purchaseId)</Paragraph>
-            <Paragraph>order date: {format(new Date(), "EEE MMM dd yyy")}</Paragraph>
-            <Paragraph>customer: (newpurchase.name)</Paragraph>
+            <Paragraph>Order Number: {id}</Paragraph>
+            <Paragraph>Order Date: {format(new Date(), "EEE MMM dd yyy")}</Paragraph>
+            <Paragraph>Customer: {purchaseInfo.firstName}</Paragraph>
             <Paragraph>
               Please keep your order number for reference. Please allow up to 24
               hours for us to process your order for shipment.
             </Paragraph>
           </OrderNumber>
           <OrderSummary>Order Summary: </OrderSummary>
-          <Paragraph>Shipping method: Standard ground delivery (4-6 business days)</Paragraph>
-          <Paragraph>Shipping address: </Paragraph>
-          <Paragraph>Order total: </Paragraph>
+          <Paragraph>Shipping Method: Standard ground delivery (4-6 business days)</Paragraph>
+          <Paragraph>Shipping Address: {purchaseInfo.address}, {purchaseInfo.city}, {purchaseInfo.province}</Paragraph>
         </ConfirmationContainer>
       </Wrapper>
       <Footer />
