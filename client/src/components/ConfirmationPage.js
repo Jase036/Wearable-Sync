@@ -9,7 +9,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 
 //date formatter
-import {format} from "date-fns"
+import { format } from "date-fns"
 
 const ConfirmationPage = () => {
   return (
