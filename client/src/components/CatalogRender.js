@@ -4,7 +4,6 @@ import { ItemContext } from "./ItemContext";
 import LoadingSpinner from "./LoadingSpinner";
 import { useHistory } from "react-router";
 
-import SearchError from "../components/Navbar/SearchError";
 
 //styling
 import styled from "styled-components";

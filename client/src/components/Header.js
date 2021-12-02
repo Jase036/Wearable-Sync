@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { BsCart3 } from "react-icons/bs";
 import SearchBar from "./Navbar/SearchBar";
 import SearchInput from "./Navbar/SearchInput";
 
