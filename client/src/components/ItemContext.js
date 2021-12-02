@@ -32,7 +32,7 @@ function reducer(state, action) {
       };
     }
 
-    case "add-to-shopping-cart": {
+    case "update-shopping-cart": {
       return {
         ...state,
         cart: action.cart,
@@ -123,19 +123,65 @@ export const ItemProvider = ({ children }) => {
     }
 
     dispatch({
-      type: "add-to-shopping-cart",
+      type: "update-shopping-cart",
       cart: updateArray,
     });
   };
 
-  const removePurchase = () => {
+  const addQuantity = (data) => {
+    let updateArray = [];
+
+    updateArray = [...state.cart].map((item) => {
+        if (item.product_id === data[0].product_id) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return item;
+        }
+    });
+    
+    window.localStorage.setItem("cart", JSON.stringify(updateArray));
+
     dispatch({
-      type: "remove-from-shopping-cart",
-      cart: [...state.cart].filter(
-        (item) => item._id !== state.cart.product_id
-      ),
+      type: "update-shopping-cart",
+      cart: updateArray,
     });
   };
+
+  const lowerQuantity = (data) => {
+    let updateArray = [];
+
+    updateArray = [...state.cart].map((item) => {
+        if (item.product_id === data[0].product_id) {
+          if (item.quantity !== 1) {
+            return { ...item, quantity: item.quantity - 1 };  
+          } else if (item.quantity === 1){ console.log ("0?")}
+        } else {
+          return item;
+        }
+      });
+
+      window.localStorage.setItem("cart", JSON.stringify(updateArray));
+    
+
+    dispatch({
+      type: "update-shopping-cart",
+      cart: updateArray,
+    });
+  };
+
+  const removePurchase = (data) => {
+    let updateArray = [];
+
+    updateArray = [...state.cart].filter(item => item.product_id === data[0].product_id )
+      
+    window.localStorage.setItem("cart", JSON.stringify(updateArray));
+    
+    dispatch({
+      type: "update-shopping-cart",
+      cart: updateArray,
+    });
+  };
+    
 
   //Loading state will allow us to use a loading component during async operations in other components
   const setLoadingState = () => {
@@ -189,6 +235,9 @@ export const ItemProvider = ({ children }) => {
         unsetLoadingState,
         receiveCategoryItemInfoFromServer,
         receiveSearchItemInfoFromServer,
+        removePurchase,
+        lowerQuantity,
+        addQuantity
       }}
     >
       {children}
