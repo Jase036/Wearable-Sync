@@ -15,7 +15,7 @@ const Banner = () => {
     return <p></p>
   }
   else {
-    let featured = [...state.items].sort(() => Math.random() - Math.random()).slice(0,3)
+    let featured = [...state.items].filter(i => i.numInStock !== 0).sort(() => Math.random() - Math.random()).slice(0,3)
 
     return (
       <>
