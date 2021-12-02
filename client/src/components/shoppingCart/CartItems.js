@@ -18,8 +18,8 @@ const CartItems = ({item, cart}) => {
         })
     }
 
-    let disabledLower = cartInfo[0].quantity === 1 ? true : false;
-    let disabledAdd = cartInfo[0].quantity < item.numInStock ? false : true;
+    let disabledLower = cartInfo[0]?.quantity === 1 ? true : false;
+    let disabledAdd = cartInfo[0]?.quantity < item.numInStock ? false : true;
 
 
     return (
