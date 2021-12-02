@@ -171,7 +171,7 @@ const PaginationButton = styled.button`
   font-size: 20px;
   &:hover {
     transition: all 0.3s ease-in-out;
-    background-color: var(--cool-gray);
+    background-color: rgba(121, 128, 138, 0.5);
     color: white;
   }
 `;
