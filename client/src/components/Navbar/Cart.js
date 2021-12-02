@@ -51,8 +51,8 @@ const Xwrapper = styled.button`
 background:none;
 border:none;
 position:absolute;
-top:50px;
-right:50px;
+top:10px;
+right:10px;
 cursor:pointer;
 padding:10px;
 
