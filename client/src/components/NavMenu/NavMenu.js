@@ -1,8 +1,4 @@
 import React, { useState, useContext } from 'react';
-<<<<<<< Updated upstream
-=======
-import styled from 'styled-components';
->>>>>>> Stashed changes
 import { NavLink } from 'react-router-dom';
 
 
