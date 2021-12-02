@@ -256,7 +256,6 @@ export const ItemProvider = ({ children }) => {
         unsetLoadingState,
         receiveCategoryItemInfoFromServer,
         receiveSearchItemInfoFromServer,
-        removePurchase,
         lowerQuantity,
         addQuantity,
         purchaseInfo, 

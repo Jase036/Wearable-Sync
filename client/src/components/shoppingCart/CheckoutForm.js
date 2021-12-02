@@ -297,7 +297,6 @@ const Wrapper = styled.div`
 
 const Submit = styled.button`
   height: 50px;
-  font-siz: 10px;
   width: 200px;
   margin:10px;
   border-radius:10px;
