@@ -10,6 +10,23 @@ const initialState = {
   cart: [],
 };
 
+const purchaseInitialState = {
+  firstName: "",
+  lastName: "",
+  phoneNum: "",
+  email: "",
+  address: "",
+  city: "",
+  postalCode: "",
+  province: "",
+  creditCardNum: "",
+  expiryM: "",
+  expiryY: "",
+  totalPrice: 0,
+  cart:[]
+}
+
+
 function reducer(state, action) {
   switch (action.type) {
     case "receive-item-info-from-server": {
@@ -68,6 +85,7 @@ function reducer(state, action) {
 export const ItemProvider = ({ children }) => {
   const [paginationIndex, setPaginationIndex] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [purchaseInfo, setPurchaseInfo] = useState(purchaseInitialState);
 
   //the item fetch dispatch function set up for pagination. The existing array is duplicated with spread and the concatenated with the new incoming data.
   const receiveItemInfoFromServer = (data) => {
@@ -92,7 +110,7 @@ export const ItemProvider = ({ children }) => {
   };
 
   const clearPurchase = () => {
-    window.localStorage.clear("cart");
+    window.localStorage.removeItem("cart");
     dispatch({
       type: "clear-shopping-cart",
       cart: [],
@@ -237,7 +255,9 @@ export const ItemProvider = ({ children }) => {
         receiveSearchItemInfoFromServer,
         removePurchase,
         lowerQuantity,
-        addQuantity
+        addQuantity,
+        purchaseInfo, 
+        setPurchaseInfo
       }}
     >
       {children}

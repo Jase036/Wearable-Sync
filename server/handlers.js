@@ -172,49 +172,62 @@ const addNewPurchase = async (req, res) => {
     city,
     postalCode,
     province,
-    product_id,
-    quantity,
+    cart
   } = req.body;
 
-  const newPurchase = { product_id, quantity };
+
   const expiryM = Number(req.body.expiryM);
   const expiryY = 2000 + Number(req.body.expiryY);
   const creditCardNum = Number(req.body.creditCardNum);
   let today = new Date();
   let expirationDate = new Date();
   expirationDate.setFullYear(expiryY, expiryM, 0);
-
+  
+  try {
+  
   if (expirationDate < today || typeof creditCardNum !== "number") {
     res.status(420).json({
       status: 420,
       message: "Double check credit card, cannot accept",
     });
   } else {
-    try {
       await client.connect();
       console.log("connected");
 
       const customersList = await db.collection("customers").find().toArray();
 
       const purchaseId = uuidv4();
-      const purchases = newPurchase.map((purchase) => {
+      const purchases = cart.map((purchase) => {
         return { ...purchase, purchaseId, date: new Date() };
+      });
+      
+      cart.map(async (purchase) => {
+        const updateStock = await db.collection("items").updateOne(
+          { _id: Number(purchase.product_id) },
+          {
+            $inc: {
+              numInStock: -purchase.quantity,
+            },
+          }
+        );
+        
       });
 
       //check to see if user already exists so we add the purchase info to that user instead of creating a new document in the collection
       if (customersList.filter((e) => e.email === email).length > 0) {
-        //update inventory numbers
-
+        
         //add the purchase info to the user's array
         const updatePurchaseInfo = await db
           .collection("customers")
           .updateOne(
             { email: email },
-            { $push: { purchaseInfo: { ...newPurchase, purchaseId } } }
+            { $push: { purchaseInfo: { ...cart, purchaseId } } }
           );
 
         res.status(200).json({ status: 200, data: purchaseId });
+
       } else {
+
         //if it's a new user we simple create the new document in Mongo
         const _id = uuidv4();
         const newEntry = await db.collection("customers").insertOne({
@@ -223,25 +236,16 @@ const addNewPurchase = async (req, res) => {
           purchaseInfo: [{ ...purchases }],
         });
 
-        res.status(200).json({ status: 200, data: newEntry });
+        res.status(200).json({ status: 200, data: newEntry.insertedId });
       }
-      newPurchase.map(async (purchase) => {
-        const updateStock = await db.collection("items").updateOne(
-          { _id: Number(purchase._id) },
-          {
-            $inc: {
-              numInStock: -purchase.quantity,
-            },
-          }
-        );
-      });
+      }
     } catch (err) {
       console.log(err.stack);
       res.status(500).json({ status: 500, error: err.message });
     } finally {
-      client.close();
+      await client.close();
     }
-  }
+  
 };
 
 const searchTerm = async (req, res) => {
@@ -283,6 +287,7 @@ const searchTerm = async (req, res) => {
   }
 };
 
+
 const getCategories = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
@@ -322,7 +327,6 @@ const getCartItems = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("Ecommerce");
   
-  console.log(req.body)
   let searchArray = req.body.map (i => Number(i.product_id) )
   try {
     await client.connect();
