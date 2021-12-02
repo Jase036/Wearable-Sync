@@ -63,6 +63,5 @@ app.post("/api/add-new-purchase", addNewPurchase);
 // api to get all categories
 app.post("/api/cart-items", getCartItems);
 
-//api to get all products in a price category- stretch goal for later
 
 app.listen(PORT, () => console.info(`Listening on port ${PORT}`));

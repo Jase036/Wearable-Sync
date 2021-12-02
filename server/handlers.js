@@ -12,9 +12,6 @@ const options = {
 const { v4: uuidv4 } = require("uuid");
 
 
-
-
-
 const getAllCompanies = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
@@ -45,6 +42,7 @@ const getAllCompanies = async (req, res) => {
     res.status(500).json({ status: 500, error: err.message });
   }
 };
+
 
 const getAllProducts = async (req, res) => {
   
@@ -78,6 +76,7 @@ const getAllProducts = async (req, res) => {
   }
 };
 
+
 const getCompanyById = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
@@ -105,6 +104,7 @@ const getCompanyById = async (req, res) => {
   }
 };
 
+
 const getProductById = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
@@ -129,6 +129,7 @@ const getProductById = async (req, res) => {
     res.status(500).json({ status: 500, error: err.message });
   }
 };
+
 
 const getProductsByCategory = async (req, res) => {
   
@@ -158,24 +159,15 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
+
 const addNewPurchase = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("Ecommerce");
   
-  const {
-    firstName,
-    lastName,
-    address,
-    phoneNum,
-    email,
-    city,
-    postalCode,
-    province,
-    cart
-  } = req.body;
+  const { email, cart } = req.body;
 
-
+  //extra validation for purchase
   const expiryM = Number(req.body.expiryM);
   const expiryY = 2000 + Number(req.body.expiryY);
   const creditCardNum = Number(req.body.creditCardNum);
@@ -186,11 +178,14 @@ const addNewPurchase = async (req, res) => {
   try {
   
   if (expirationDate < today || typeof creditCardNum !== "number") {
+
     res.status(420).json({
       status: 420,
       message: "Double check credit card, cannot accept",
     });
+
   } else {
+
       await client.connect();
       console.log("connected");
 
@@ -217,9 +212,7 @@ const addNewPurchase = async (req, res) => {
       if (customersList.filter((e) => e.email === email).length > 0) {
         
         //add the purchase info to the user's array
-        const updatePurchaseInfo = await db
-          .collection("customers")
-          .updateOne(
+        await db.collection("customers").updateOne(
             { email: email },
             { $push: { purchaseInfo: { ...cart, purchaseId } } }
           );
@@ -248,6 +241,7 @@ const addNewPurchase = async (req, res) => {
   
 };
 
+//Search bar endpoint. Allows text string search in whole collection.
 const searchTerm = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
@@ -265,6 +259,7 @@ const searchTerm = async (req, res) => {
       body_location: "text",
     });
 
+    //this is where the magic happens, the $text & $search operator combo is insanely powerful.
     const query = { $text: { $search: searchTerm } };
     const searchResult = await db.collection("items").find(query).toArray();
 
@@ -287,7 +282,7 @@ const searchTerm = async (req, res) => {
   }
 };
 
-
+//Get the unique categories from all the products for the categories menu.
 const getCategories = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
@@ -304,6 +299,8 @@ const getCategories = async (req, res) => {
       .toArray();
 
     await client.close();
+
+    //map through the entire array and get only the unique categories
     let categories = [];
     productsList.map((e) => categories.push(e.category));
     let uniqueArray = categories.filter((e, i, s) => s.indexOf(e) === i);
@@ -322,11 +319,14 @@ const getCategories = async (req, res) => {
 };
 
 
+//This allows us to get the entire item object for the products in the cart to display
 const getCartItems = async (req, res) => {
   
   const client = new MongoClient(MONGO_URI, options);
   const db = client.db("Ecommerce");
   
+  // we use the array of product id we have in state or storage to find the specific items. 
+  // Mongo allows the use of an array to select multiple objects with the $in operator!
   let searchArray = req.body.map (i => Number(i.product_id) )
   try {
     await client.connect();
