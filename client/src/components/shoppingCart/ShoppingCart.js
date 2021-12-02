@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ItemContext } from "../ItemContext";
 import { useHistory } from "react-router-dom";
 
@@ -7,18 +7,33 @@ import CartItems from "./CartItems";
 
 //styling
 import styled from "styled-components";
-import cartItems from "./CartItems";
 
 const ShoppingCart = () => {
 
   let history = useHistory();
 
+  const [cartItems, setCartItems] = useState([]);
   const { state, clearPurchase } = useContext(ItemContext);
-
   const {cart} = state;
 
+  useEffect(() => {
+    let index = cart.length === 0 ? 0 : cart.length - 1;
+    fetch(`/api/product/${cart[index].product_id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data)
+      setCartItems([...cartItems].concat(data.data))
+    })
+  },[cart])
 
-  const checkOutForm = () =>{
+  console.log(cartItems)
+
+  // calc subtotal 
+  // let subtotal = 0;
+  // subtotal += Number(num).toFixed(2) * item.quantity * 100 / 100;
+
+
+  const checkOutForm = () => {
     history.push("/checkout");
   }
   // console.log(state)
@@ -30,28 +45,30 @@ const ShoppingCart = () => {
       </Wrapper>
     );
   } else {
+
+
     return (
       <>
-        <Title>Cart Summery</Title>
-       {cart.map((item)=>{
-           return(<CartItems key={item.id} {...item}/>)
-       })}
+        <Title>Cart Summary</Title>
+      {cart.map((item)=> {
+          return(<CartItems key={item.id} item={item}/>)
+      })}
 
-       <div>
-           <Para>Cart Total : <Span> $0.00 </Span></Para>
-       </div>
+      <div>
+          <Para>Cart Total : <Span> $0.00 </Span></Para>
+      </div>
 
 
 
-       <div>
-       <Button onClick={clearPurchase}>
-           Clear
-       </Button>
+      <div>
+      <Button onClick={clearPurchase}>
+          Clear
+      </Button>
 
-       <Checkout onClick={checkOutForm}>
-           Check out
-       </Checkout>
-       </div>
+      <Checkout onClick={checkOutForm}>
+          Check out
+      </Checkout>
+      </div>
       </>
     );
   }

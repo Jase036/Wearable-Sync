@@ -77,6 +77,8 @@ const ItemDetails = () => {
 
     
 
+    
+
     if (!state.hasLoaded) {
         return (
         <Wrapper>
@@ -102,9 +104,9 @@ const ItemDetails = () => {
                             selectedItem.numInStock && (
                                 <>
                                 <PriceSpan>{selectedItem.price}</PriceSpan>
-                                {/* <Link to='/shoppingCart'> */}
+                                <Link to='/shopping-cart'>
                                 <StyledBtn onClick={() => addPurchase([{product_id: selectedItem._id, quantity: 1 }])}><span>Add to Cart</span></StyledBtn>
-                                {/* </Link> */}
+                                </Link>
                                 </>
                                 ) 
                                 ) : (
