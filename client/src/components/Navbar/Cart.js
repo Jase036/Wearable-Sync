@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ItemContext } from "../ItemContext";
 
 
 //styling
 import styled from "styled-components";
+
 
 //children
 import ShoppingCart from "../shoppingCart/ShoppingCart";

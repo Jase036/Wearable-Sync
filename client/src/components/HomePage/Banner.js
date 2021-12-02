@@ -21,23 +21,23 @@ const Banner = () => {
       <>
         <BkgImg />
         <Intro>
-          <Carousel focusOnSelect={true} itemsToShow={1}>
+          <StyledCarousel focusOnSelect={true} itemsToShow={1}>
             
               { featured.map(item => {
                 return(
                   <div key={item._id}>
                   <Para>
                   <Image alt="featured product" src={item.imageSrc}/>
-                  <span>
+                  <Span>
                   {item.name}
-                  </span>
+                  </Span>
                 </Para>
                 <ShopLink to={`/item/${item._id}`}>Shop Now</ShopLink>
                 </div>
                 )
               })
               }
-          </Carousel>
+          </StyledCarousel>
         </Intro>
       </>
     );
@@ -46,6 +46,49 @@ const Banner = () => {
 
 export default Banner;
 
+const Span = styled.span`
+
+text-align:center;
+padding-top:20px;
+font-weight:bold;
+
+
+`
+
+
+
+const StyledCarousel = styled(Carousel)`
+
+
+
+& button:nth-child(1){
+  box-shadow:none;
+  border: solid 2px #dcdcd0;
+  background-color:var(--cool-gray);
+ }
+
+& button:nth-child(2){
+ box-shadow:none;
+ border: solid 2px #dcdcd0;
+ background-color:var(--cool-gray);
+}
+& button:nth-child(3){
+  box-shadow:none;
+  border: solid 2px #dcdcd0;
+  background-color:var(--cool-gray);
+ }
+
+
+ & button:active{
+  background-color: #dcdcd0 !important;
+ }
+
+& button:hover{
+  background-color: #dcdcd0 !important;
+
+
+
+}`
 
 
 
@@ -54,10 +97,10 @@ const ShopLink = styled(Link)`
   background: none;
   padding: 20px 20px;
   border-radius: 10px;
-  border: solid var(--sage) 2px;
+  border: solid var(--dusty-rose) 2px;
   display: block;
   margin: auto;
-  color: var(--sage);
+  color: var(--dusty-rose);
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 20px;
@@ -70,7 +113,7 @@ const ShopLink = styled(Link)`
 
   &:hover{
 
-    background:var(--sage);
+    background:var(--dusty-rose);
     color:var(--cool-gray);
 
   }
@@ -107,6 +150,7 @@ const BkgImg = styled.div`
 `;
 
 const Image = styled.img`
+  mix-blend-mode: multiply;
   max-width:200px;
   height:auto;
   display:block;
