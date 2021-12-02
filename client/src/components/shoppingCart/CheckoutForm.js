@@ -1,5 +1,4 @@
-import Address from "ipaddr.js";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ItemContext } from "../ItemContext";
 import { useHistory } from "react-router";

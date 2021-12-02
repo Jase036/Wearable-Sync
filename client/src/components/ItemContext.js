@@ -168,6 +168,7 @@ export const ItemProvider = ({ children }) => {
   const lowerQuantity = (data) => {
     let updateArray = [];
 
+    //eslint-disable-next-line
     updateArray = [...state.cart].map((item) => {
         if (item.product_id === data[0].product_id) {
           if (item.quantity !== 1) {
@@ -193,7 +194,7 @@ export const ItemProvider = ({ children }) => {
     if (state.cart.length === 1) {
       updateArray = [];
     } else {
-    updateArray = [...state.cart].filter(item => item.product_id === data[0].product_id )
+    updateArray = [...state.cart].filter(item => item.product_id !== data[0].product_id )
     }  
     window.localStorage.setItem("cart", JSON.stringify(updateArray));
     

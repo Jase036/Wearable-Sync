@@ -3,10 +3,11 @@ import styled from "styled-components"
 import { useParams } from "react-router-dom"
 import { ItemContext } from './ItemContext'
 import LoadingSpinner from './LoadingSpinner'
+import { useHistory } from 'react-router'
 
 
 const ItemDetails = () => {
-
+    let history = useHistory();
     const {_id}  = useParams();
 
     const [selectedItem, setSelectedItem] = useState('')
@@ -22,16 +23,16 @@ const ItemDetails = () => {
         .then((res) => res.json())
         .then((data) => {            
             if (data.status !== 200) {
-                console.log(data.error.message)
+                console.log(data)
+                history.push('/error')
             } else {
                 setSelectedItem(data.data)
                 
                 fetch(`/api/company/${data.data.companyId}`)
                     .then((res) => res.json())
                     .then((res) => {  
-                        console.log(res)          
                         if (res.status !== 200) {
-                            console.log(res.error.message)
+                            console.log(res)
                         } else {
                             setSelectedCompany(res.data)
                             unsetLoadingState()
@@ -39,7 +40,7 @@ const ItemDetails = () => {
                     })
             }
         })
-    }, [])
+    }, []) //eslint-disable-line
 
     
 
@@ -169,7 +170,6 @@ cursor: pointer;
 }
 
 &:hover {
-    text-align: left;
     opacity: 0.9;
     transition: 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) ease-in-out;
 }
