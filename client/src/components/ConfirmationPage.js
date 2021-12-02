@@ -36,17 +36,17 @@ const ConfirmationPage = () => {
         <ConfirmationContainer>
           <OrderDetails>Order Details: </OrderDetails>
           <OrderNumber>
-            <Paragraph>Order Number: {id}</Paragraph>
-            <Paragraph>Order Date: {format(new Date(), "EEE MMM dd yyy")}</Paragraph>
-            <Paragraph>Customer: {purchaseInfo.firstName}</Paragraph>
+            <Paragraph><Span>Order Number:</Span> {id}</Paragraph>
+            <Paragraph><Span>Order Date:</Span> {format(new Date(), "EEE MMM dd yyy")}</Paragraph>
+            <Paragraph><Span>Customer:</Span> {purchaseInfo.firstName}</Paragraph>
             <Paragraph>
               Please keep your order number for reference. Please allow up to 24
               hours for us to process your order for shipment.
             </Paragraph>
           </OrderNumber>
-          <OrderSummary>Order Summary: </OrderSummary>
-          <Paragraph>Shipping Method: Standard ground delivery (4-6 business days)</Paragraph>
-          <Paragraph>Shipping Address: {purchaseInfo.address}, {purchaseInfo.city}, {purchaseInfo.province}</Paragraph>
+          <OrderSummary><Span>Order Summary:</Span> </OrderSummary>
+          <Paragraph><Span>Shipping Method:</Span> Standard ground delivery (4-6 business days)</Paragraph>
+          <Paragraph><Span>Shipping Address:</Span> {purchaseInfo.address}, {purchaseInfo.city}, {purchaseInfo.province}</Paragraph>
         </ConfirmationContainer>
       </Wrapper>
       <Footer />
@@ -94,4 +94,7 @@ const Paragraph = styled.p`
 const OrderSummary = styled.h2`
   padding: 20px 0px;
 `;
+
+const Span = styled.span`
+font-weight: 700;`
 export default ConfirmationPage;
