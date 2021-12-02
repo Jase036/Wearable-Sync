@@ -190,7 +190,7 @@ export const ItemProvider = ({ children }) => {
 
   const removePurchase = (data) => {
     let updateArray = [];
-    console.log(data);
+    
     if (state.cart.length === 1) {
       updateArray = [];
     } else {

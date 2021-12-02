@@ -38,7 +38,7 @@ const SearchInput = () => {
     fetch(`/api/searchterm?searchTerm=${searchTerm}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        
         receiveSearchItemInfoFromServer(data.data);
         history.push("/search/search");
       });

@@ -56,7 +56,7 @@ const CheckOutForm = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data)
+        
         if (data.status !== 200) {
           return <h1>please fill the missing info</h1>;
         } else {
