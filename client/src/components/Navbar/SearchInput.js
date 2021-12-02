@@ -1,14 +1,10 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
-import SearchError from "../Navbar/SearchError";
-// import Search from "../Search";
 
 import { ItemContext } from "../ItemContext";
-import { set } from "date-fns/esm";
 
 //icons
-import { MdClear } from "react-icons/md";
 import { RiCloseFill } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
 
@@ -62,20 +58,19 @@ const SearchInput = () => {
         value={searchTerm}
         onChange={handleSearchChange}
         onKeyDown={(ev) => handleKeyDown(ev)}
-        placeholder="Type a product or company name to begin your search"
+        placeholder="Search for products"
         aria-label="Search Wearable Sync Store"
       ></Input>
       <ButtonClear onClick={handleClear}>
         <RiCloseFill size={32} />
       </ButtonClear>
-      {/* <Search searchStatus={searchStatus} /> */}
     </Container>
   );
 };
 
 const Input = styled.input`
   height: 40px;
-  width: 510px;
+  width: 300px;
   font-size: 20px;
   font-family: var(--font-family);
   background-color: var(--sage);
