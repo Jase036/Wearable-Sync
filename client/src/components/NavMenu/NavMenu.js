@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 const NavMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [categories, setCategories] = useState([])
-    const { state, setLoadingState, unsetLoadingState, clearItemState, receiveCategoryItemInfoFromServer } = useContext(ItemContext);
+    const { state, setLoadingState, unsetLoadingState, receiveCategoryItemInfoFromServer } = useContext(ItemContext);
     
     let history = useHistory()
 
@@ -25,7 +25,8 @@ const NavMenu = () => {
             } else {
                 setCategories(data.data);
                 unsetLoadingState()}});
-    },[])
+
+    },[]) // eslint-disable-line
 
     const handleClick = (category) => {
         setLoadingState();

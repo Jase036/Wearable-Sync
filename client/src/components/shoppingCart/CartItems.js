@@ -6,14 +6,12 @@ import styled from "styled-components";
 
 
 
-const CartItems = () => {
+const CartItems = ({item}) => {
 
     const {state, addPurchase, removePurchase, clearPurchase} = useContext(ItemContext)
 
     return (
         <div>
-            {state.items.filter((item) => item._id === item.product_id).map((item) => {
-                return (
                 <React.Fragment key="item._id">
                     <button onClick={() => clearPurchase(item._id)}>Remove</button>
                     <img src={item.imageSrc} alt={item.name}/>
@@ -23,8 +21,8 @@ const CartItems = () => {
                     <button onClick={() =>removePurchase(item._id)}> - </button>
                     <p>{item.price}</p>
                 </React.Fragment>
-                )
-            })}
+                
+
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 export const breakpoints = { tablet: "600px" };
 
 export default createGlobalStyle`
-@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,200;0,400;0,700;1,100&family=Roboto&display=swap");
+
     :root {
       --cool-gray: #79808A;
       --champagne: #F1E6C8;

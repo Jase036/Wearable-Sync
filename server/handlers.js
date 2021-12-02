@@ -285,6 +285,32 @@ const getCategories = async (req, res) => {
   }
 };
 
+
+const getCartItems = async (req, res) => {
+  console.log(req.body)
+  let searchArray = req.body.map (i => Number(i.product_id) )
+  try {
+    await client.connect();
+    const cartItems = await db
+      .collection("items")
+      .find({ _id: { $in : searchArray } })
+      .toArray();
+
+    client.close();
+
+    if (cartItems) {
+      res.status(200).json({ status: 200, data: cartItems });
+    } else {
+      res
+        .status(404)
+        .json({ status: 404, message: "Not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: 500, error: err.message });
+  }
+};
+
+
 module.exports = {
   getAllCompanies,
   getAllProducts,
@@ -294,4 +320,5 @@ module.exports = {
   addNewPurchase,
   getCategories,
   searchTerm,
+  getCartItems
 };

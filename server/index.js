@@ -12,6 +12,7 @@ const {
   addNewPurchase,
   getCategories,
   searchTerm,
+  getCartItems
 } = require("./handlers");
 const PORT = 4000;
 const app = express();
@@ -58,6 +59,9 @@ app.get("/api/categories", getCategories);
 
 // api to add a new customer at checkout, or just add purchaseInfo for existing customers
 app.post("/api/add-new-purchase", addNewPurchase);
+
+// api to get all categories
+app.post("/api/cart-items", getCartItems);
 
 //api to get all products in a price category- stretch goal for later
 

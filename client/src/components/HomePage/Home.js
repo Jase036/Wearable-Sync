@@ -6,16 +6,13 @@ import CatalogRender from "../CatalogRender";
 import Banner from "./Banner";
 import Footer from "../Footer";
 
-//styling
-import styled from "styled-components";
-
 
 const Home = () =>{
 return(
     <>
         <Header />
         <Banner/>
-        <CatalogRender type="home"/>
+        <CatalogRender />
         <Footer />
     </>
 
