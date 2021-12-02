@@ -1,6 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+
+
+//styling
+import styled from 'styled-components';
+
 import { ItemContext } from '../ItemContext';
 import { useHistory } from 'react-router';
 
@@ -25,11 +29,6 @@ const NavMenu = () => {
             }});
     }
     
-    // useEffect(()=>{
-        
-        
-
-    // },[]) // eslint-disable-line
 
     const handleClick = (category) => {
         setLoadingState();
@@ -73,11 +72,12 @@ const NavMenu = () => {
 }
 
 const NavMenuLink = styled(NavLink)`
-    color:#fff;
+    color:#616060;
     font-family: var(--font-family);
     margin-left: 15px;
     text-decoration: none;
     font-size: 25px;
+    font-weight:bold;
 &:hover{
     color: var(--dusty-rose)
 }
@@ -93,15 +93,20 @@ const DropDownContainer = styled("div")`
 `
 const DropDownHeader = styled("div")`
 font-size: 25px;
-color: #fff;
+color:#616060;
 text-align: center;
 z-index:100;
 cursor: pointer;
+font-weight:bold;
+
+&:hover{
+    color: var(--dusty-rose);
 `;
 
 const DropDownListContainer = styled("div")`
 position:absolute;
 z-index:100;
+top: 90px;
 
 `;
 
@@ -113,17 +118,18 @@ box-sizing: border-box;
 box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
 display: flex;
 flex-direction: row;
+border-radius:5px;
 `;
 
 const ListItem = styled("li")`
 list-style: none;
 margin: 0 15px;
 padding: 5px;
-color: #fff;
+color:#616060;
 text-align: center;
 font-size: 22px;
 &:hover {
-background: rgba(220, 220, 208, 1);
+background: #D3BAB1;
 cursor: pointer;
 }
 `;
