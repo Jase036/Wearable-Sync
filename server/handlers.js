@@ -11,11 +11,15 @@ const options = {
 // using uuid to create unique id for our customers
 const { v4: uuidv4 } = require("uuid");
 
-//Declare our MongoDB client and options along with the database name so we don't have to repeat in all handler functions.
-const client = new MongoClient(MONGO_URI, options);
-const db = client.db("Ecommerce");
+
+
+
 
 const getAllCompanies = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   //To paginate from server we use skip & limit as query parameters. In case they aren't sent, we default to skip 0 and limit 20.
   let { skip, limit } = req.query;
   skip ? (skip = Number(skip)) : (skip = 0);
@@ -43,6 +47,10 @@ const getAllCompanies = async (req, res) => {
 };
 
 const getAllProducts = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   //To paginate from server we use skip & limit as query parameters. In case they aren't sent, we default to skip 0 and limit 20.
   let { skip, limit } = req.query;
   skip ? (skip = Number(skip)) : (skip = 0);
@@ -71,6 +79,10 @@ const getAllProducts = async (req, res) => {
 };
 
 const getCompanyById = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   //Transform _id string to number so we can use it to search for company _id
   const _id = Number(req.params._id);
 
@@ -94,6 +106,10 @@ const getCompanyById = async (req, res) => {
 };
 
 const getProductById = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   //Transform _id string to number so we can use it to search for product _id
   const _id = Number(req.params._id);
 
@@ -115,6 +131,10 @@ const getProductById = async (req, res) => {
 };
 
 const getProductsByCategory = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   const category = req.params.category;
 
   try {
@@ -139,6 +159,10 @@ const getProductsByCategory = async (req, res) => {
 };
 
 const addNewPurchase = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   const {
     firstName,
     lastName,
@@ -221,6 +245,10 @@ const addNewPurchase = async (req, res) => {
 };
 
 const searchTerm = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   const { searchTerm } = req.query;
   // let { skip, limit } = req.query;
   // skip ? (skip = Number(skip)) : (skip = 0);
@@ -257,6 +285,10 @@ const searchTerm = async (req, res) => {
 };
 
 const getCategories = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   try {
     await client.connect();
     console.log("connected!");
@@ -267,7 +299,7 @@ const getCategories = async (req, res) => {
       .project({ category: 1 })
       .toArray();
 
-    await client.close;
+    await client.close();
     let categories = [];
     productsList.map((e) => categories.push(e.category));
     let uniqueArray = categories.filter((e, i, s) => s.indexOf(e) === i);
@@ -287,6 +319,10 @@ const getCategories = async (req, res) => {
 
 
 const getCartItems = async (req, res) => {
+  
+  const client = new MongoClient(MONGO_URI, options);
+  const db = client.db("Ecommerce");
+  
   console.log(req.body)
   let searchArray = req.body.map (i => Number(i.product_id) )
   try {

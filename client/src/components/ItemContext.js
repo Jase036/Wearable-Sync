@@ -96,9 +96,11 @@ export const ItemProvider = ({ children }) => {
   };
 
   const clearPurchase = () => {
+    window.localStorage.clear('cart')
     dispatch({
       type: "clear-shopping-cart",
       cart: [],
+      
     });
   };
 
@@ -108,16 +110,21 @@ export const ItemProvider = ({ children }) => {
     
     if(state.cart.length === 0) {
       updateArray = [...state.cart].concat(data);
+      window.localStorage.setItem("cart", JSON.stringify(updateArray))  
     } else if ([...state.cart].filter((item) => item.product_id === data[0].product_id).length === 0) {
       updateArray = [...state.cart].concat(data)
+      window.localStorage.setItem("cart", JSON.stringify(updateArray))  
     } else {
       updateArray = [...state.cart].map((item) => {
         if(item.product_id === data[0].product_id) {
           return {...item, quantity: item.quantity + 1} 
+        } else {
+          return item
         }
       })
-    }
       window.localStorage.setItem("cart", JSON.stringify(updateArray))  
+    }
+      
 
     dispatch({
       type: "add-to-shopping-cart",
