@@ -59,7 +59,7 @@ const SearchInput = () => {
         aria-label="Search Wearable Sync Store"
       ></Input>
       <Button onClick={handleClear}>Clear</Button>
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button onClick={handleSubmit}>Search</Button>
       {/* <Search searchStatus={searchStatus} /> */}
     </Container>
   );
@@ -86,7 +86,7 @@ const Button = styled.button`
   position: relative;
   text-decoration: none;
   color: #fff;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   font-family: var(--font-family);
 `;
