@@ -2,9 +2,14 @@ import Address from "ipaddr.js";
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
+//children
+import ShoppingCart from "./ShoppingCart";
+
 //styling
 import styled from "styled-components";
 import checkOut from "../../assets/checkOut.jpg";
+
+
 
 // there are 2 piece of info with quantity, productId:""
 
@@ -15,7 +20,7 @@ const CheckOutForm = () => {
 
 
   let month = new Date().getMonth();
-  let currentMonth = month + 1
+  let currentMonth = month + 1;
   
   const [clientInfo, setClientInfo] = useState({
     firstName: "",
@@ -35,8 +40,6 @@ const CheckOutForm = () => {
 
   const getInfo = (ev) => {
     setClientInfo({ ...clientInfo, [ev.target.id]: ev.target.value });
-
- 
 
   };
 
@@ -67,6 +70,9 @@ const CheckOutForm = () => {
 
   return (
     <Wrapper>
+      <SideBar>
+      <ShoppingCart checkOut={true} />
+      </SideBar>
       <Title>Shipping Info</Title>
       <Form onSubmit={handleSubmit}>
         <Label>
@@ -216,11 +222,28 @@ const CheckOutForm = () => {
 export default CheckOutForm;
 
 
+const SideBar = styled.div`
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 400px;
+  z-index: 300;
+  background-color: var(--dusty-rose);
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`;
+
+
 const Select = styled.select`
 
 border:none;
-
-
+padding:10px;
+border-radius:5px;
 `
 
 const Expiry = styled.input`
@@ -233,7 +256,7 @@ padding:5px;
 
 const Input =styled.input`
 margin-left: 10px;
-width: 170px;
+width: 190px;
 border: 0;
 height:20px;
 padding:10px;
@@ -249,9 +272,8 @@ font-weight:bold;
 `
 
 const Title = styled.h1`
-text-align:right;
-margin-right:360px;
-padding:50px 0px;
+text-align:center;
+padding:20px 0px;
 font-family: var(--font-family);
 font-size:40px;
 
@@ -262,8 +284,9 @@ const Form = styled.form`
   flex-direction: column;
   align-content: flex-end;
   justify-content: center;
+  flex-direction: column;
   align-items: flex-end;
-  margin-right:350px;
+  margin-right:600px;
 `;
 
 const Wrapper = styled.div`
@@ -276,7 +299,7 @@ const Submit = styled.button`
   height: 50px;
   font-siz: 10px;
   width: 200px;
-  margin:20px 10px;
+  margin:10px;
   border-radius:10px;
   font-size:18px;
   font-weight:bold;
