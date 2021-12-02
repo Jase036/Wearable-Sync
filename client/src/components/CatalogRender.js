@@ -2,16 +2,18 @@ import React, { useContext } from "react";
 import { useParams } from "react-router";
 import { ItemContext } from "./ItemContext";
 import LoadingSpinner from "./LoadingSpinner";
-
+import { useHistory } from "react-router";
 
 
 //styling
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+
 
 const CatalogRender = () => {
   const { state, paginationIndex, setPaginationIndex} = useContext(ItemContext);
   const type = useParams().type;
+  let history = useHistory();
+  
   let itemArray = []
   
   if(type === "category" && state.categoryItems.length > 0 ){
@@ -23,8 +25,13 @@ const CatalogRender = () => {
   }
 
 
-  const handleClick = (item) =>{
+  const handleClick = (ev, item) =>{
+    ev.stopPropagation();
+  }
 
+  const handleProductDetail = (ev, item) =>{
+    ev.stopPropagation();
+    history.push(`/item/${item._id}`)
   }
 
   //We add one to the pagination index, this will cause a fetch and re-render.
@@ -46,25 +53,25 @@ const CatalogRender = () => {
         <Wrapper>
           {itemArray.map((item) => {
             return (
-              <ProductContainer key={item._id} to={`/item/${item._id}`}>
+              <ProductContainer key={item._id} onClick={(ev) => handleProductDetail(ev, item)}>
                 <Para>{item.name}</Para>
                 <ProductImg alt="product" src={item.imageSrc} />
                 <Overlay>
                   {item.numInStock !==0 ? 
-                  <Button onClick={()=>{handleClick(item)}}  >Add to cart</Button> :
+                  <Button onClick={(ev)=>{handleClick(ev,item)}}  >Add to cart</Button> :
                   <p>Out of stock</p>}
                 </Overlay>
               </ProductContainer>
             );
           })}
         </Wrapper>
-        
+        {!type &&
         <PaginationContainer>
           <PaginationButton onClick={handlePaginationClick}>
             Load More
           </PaginationButton>
         </PaginationContainer>
-        
+        }
       </>
     );
   }
@@ -72,7 +79,7 @@ const CatalogRender = () => {
 
 
 const Button = styled.div`
-
+z-index: 49;
 cursor:pointer;
 height:20px;
 
@@ -90,7 +97,7 @@ const Overlay = styled.div`
   height: 100%;
   width: 100%;
   padding: 50px;
-  z-index: 99;
+  z-index: 40;
   transition: 0.5s ease;
   background-color: rgb(211, 186, 177, 0);
   border-radius:20px;
@@ -112,13 +119,15 @@ const Wrapper = styled.div`
   justify-content: center;
   margin-top: 30px;
 `;
-const ProductContainer = styled(Link)`
+const ProductContainer = styled.div`
   width: 400px;
   height: 400px;
   padding: 50px;
   position: relative;
+  border-radius:20px;
 
   &:hover div {
+    box-shadow: 0 0 5px #ddd;
     background-color: rgb(211, 186, 177, 0.5);
     }
   
