@@ -41,7 +41,7 @@ const ShoppingCart = ({ checkOut }) => {
   console.log(cartItems);
 
   // calc subtotal
-  // let subtotal = 0;
+  let subtotal = 0;
   // subtotal += Number(num).toFixed(2) * item.quantity * 100 / 100;
 
   const checkOutForm = () => {
@@ -60,7 +60,12 @@ const ShoppingCart = ({ checkOut }) => {
       <>
         <Title>Cart Summary</Title>
         {cartItems.map((item) => {
-          return <CartItems key={item.id} item={item} />;
+          const itmCost = item.price.slice(1,).split(",").join("");
+          console.log(itmCost)
+          subtotal += itmCost * item.quantity
+          console.log(subtotal)
+
+          return <CartItems key={item.id} item={item} cart={cart} />;
         })}
 
         <div>
@@ -72,14 +77,11 @@ const ShoppingCart = ({ checkOut }) => {
         {checkOut !== true ? (
           <div>
             <Button onClick={clearPurchase}>Clear</Button>
-
             <Checkout onClick={checkOutForm}>Check out</Checkout>
           </div>
         ) : (
           <div>
-            
             <Home to='/'>Continue Shopping</Home>
-
           </div>
         )}
       </>
