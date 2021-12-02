@@ -62,7 +62,7 @@ const SearchInput = () => {
         aria-label="Search Wearable Sync Store"
       ></Input>
       <ButtonClear onClick={handleClear}>
-        <RiCloseFill size={32} />
+        <RiCloseFill size={32} color={"gray"} />
       </ButtonClear>
     </Container>
   );
@@ -94,7 +94,7 @@ const ButtonSearch = styled.button`
   cursor: pointer;
   position: relative;
   text-decoration: none;
-  color: #fff;
+  color: gray;
   font-size: 20px;
   font-weight: 700;
   font-family: var(--font-family);
@@ -103,11 +103,13 @@ const ButtonSearch = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius:10px 0px 0px 10px;
 `;
 
 const ButtonClear = styled.button`
   background: none;
   border: 1px solid white;
+  border-radius: 0px 10px 10px 0px;
   cursor: pointer;
   position: relative;
   text-decoration: none;

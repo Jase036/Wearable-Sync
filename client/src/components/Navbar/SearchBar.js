@@ -4,7 +4,7 @@ import styled from "styled-components";
 const SearchBar = ({ handleSearchClick }) => {
   return (
     <Button onClick={handleSearchClick}>
-      <BsSearch />
+      <BsSearch color={"gray"}/>
     </Button>
   );
 };
