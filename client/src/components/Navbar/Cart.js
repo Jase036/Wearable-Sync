@@ -4,6 +4,8 @@ import { ItemContext } from "../ItemContext";
 
 //styling
 import styled from "styled-components";
+
+//children
 import ShoppingCart from "../shoppingCart/ShoppingCart";
 
 //icons
