@@ -1,12 +1,16 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router";
-import { MdClear } from "react-icons/md";
 import SearchError from "../Navbar/SearchError";
 // import Search from "../Search";
 
 import { ItemContext } from "../ItemContext";
 import { set } from "date-fns/esm";
+
+//icons
+import { MdClear } from "react-icons/md";
+import { RiCloseFill } from "react-icons/ri";
+import { BsSearch } from "react-icons/bs";
 
 const SearchInput = () => {
   const { state, receiveSearchItemInfoFromServer } = useContext(ItemContext);
@@ -50,6 +54,9 @@ const SearchInput = () => {
 
   return (
     <Container>
+      <ButtonSearch onClick={handleSubmit}>
+        <BsSearch size={20} />
+      </ButtonSearch>
       <Input
         type="text"
         value={searchTerm}
@@ -58,30 +65,37 @@ const SearchInput = () => {
         placeholder="Type a product or company name to begin your search"
         aria-label="Search Wearable Sync Store"
       ></Input>
-      <Button onClick={handleClear}>Clear</Button>
-      <Button onClick={handleSubmit}>Search</Button>
+      <ButtonClear onClick={handleClear}>
+        <RiCloseFill size={32} />
+      </ButtonClear>
       {/* <Search searchStatus={searchStatus} /> */}
     </Container>
   );
 };
 
 const Input = styled.input`
-  height: 50px;
-  width: 550px;
-  border-radius: 8px;
+  height: 40px;
+  width: 510px;
   font-size: 20px;
   font-family: var(--font-family);
   background-color: var(--sage);
   border: solid 1px white;
   outline: none;
+  border-left: none;
+  border-right: none;
 `;
+
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
   background: none;
   border: none;
+  padding-right: 100px;
 `;
-const Button = styled.button`
+
+const ButtonSearch = styled.button`
   background: none;
-  border: none;
+  border: 1px solid white;
   cursor: pointer;
   position: relative;
   text-decoration: none;
@@ -89,5 +103,29 @@ const Button = styled.button`
   font-size: 20px;
   font-weight: 700;
   font-family: var(--font-family);
+  border-right: none;
+  background-color: var(--sage);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
+const ButtonClear = styled.button`
+  background: none;
+  border: 1px solid white;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 700;
+  font-family: var(--font-family);
+  border-right: none;
+  background-color: var(--sage);
+  border-left: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default SearchInput;
