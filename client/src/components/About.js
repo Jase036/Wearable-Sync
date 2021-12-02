@@ -7,55 +7,63 @@ import styled from "styled-components";
 import Footer from "./Footer";
 import Header from "./Header";
 
+//Image imports
+import hastiImage from "../assets/Hasti.png"
+import irinaImage from "../assets/Irina.png"
+import jaseImage from "../assets/Jase.png"
+import leslieImage from "../assets/Leslie.png"
+import maddyImage from "../assets/Maddy.png"
+import aboutImageWearable from "../assets/about-image.jpg"
+
 const About = () => {
   return (
-      <>
+    <>
       <Header />
-    <Wrapper>
-      <AboutImage src={"../images/about-image.jpg"} />
-      <AboutContainer>
-        <AboutUs>About Us</AboutUs>
-        <Headers>Our story</Headers>
-        <Paragraph>
-          Wearable Sync was founded in 2021 by a team of web developers from
-          across Canada who attended the Concordia University Bootcamp.
-        </Paragraph>
-        <Headers>Our mission</Headers>
-        <Paragraph>
-          We strive to offer our customers the lowest possible prices, the best
-          available selection, and the utmost convenience.
-        </Paragraph>
-        <Headers>Our vision</Headers>
-        <Paragraph>
-          To be the most customer-centric company, where customers can find and
-          discover the latest wearable technology.
-        </Paragraph>
-        <Headers>Meet the team</Headers>
-        <TeamImageContainer>
-          <div>
-            <img src={"../images/jace.png"} />
-            <Names>Jase</Names>
-          </div>
-          <div>
-          <img src={"../images/Hasti.png"} />
-          <Names>Hasti</Names>
-          </div>
-          <div>
-          <img src={"../images/Irina.png"} />
-          <Names>Irina</Names>
-          </div>
-          <div>
-          <img src={"../images/Madhu.png"} />
-          <Names>Maddy</Names>
-          </div>
-          <div>
-          <img src={"../images/Leslie.png"} />
-          <Names>Leslie</Names>
-          </div>
-        </TeamImageContainer>
-      </AboutContainer>
-    </Wrapper>
-    <Footer />
+      <Wrapper>
+        <AboutImage src={aboutImageWearable} alt={"Wearable"} />
+        <AboutContainer>
+          <AboutUs>About Us</AboutUs>
+          <Headers>Our story</Headers>
+          <Paragraph>
+            Wearable Sync was founded in 2021 by a team of web developers from
+            across Canada who attended the Concordia University Bootcamp.
+          </Paragraph>
+          <Headers>Our mission</Headers>
+          <Paragraph>
+            We strive to offer our customers the lowest possible prices, the
+            best available selection, and the utmost convenience.
+          </Paragraph>
+          <Headers>Our vision</Headers>
+          <Paragraph>
+            To be the most customer-centric company, where customers can find
+            and discover the latest wearable technology.
+          </Paragraph>
+          <Headers>Meet the team</Headers>
+          <TeamImageContainer>
+            <div>
+              <img src={jaseImage} alt={"Profile Jase"} />
+              <Names>Jase</Names>
+            </div>
+            <div>
+              <img src={hastiImage} alt={"Profile Hasti"} />
+              <Names>Hasti</Names>
+            </div>
+            <div>
+              <img src={irinaImage} alt={"Profile Irina"} />
+              <Names>Irina</Names>
+            </div>
+            <div>
+              <img src={maddyImage} alt={"Profile Maddy"} />
+              <Names>Maddy</Names>
+            </div>
+            <div>
+              <img src={leslieImage} alt={"Profile Leslie"} />
+              <Names>Leslie</Names>
+            </div>
+          </TeamImageContainer>
+        </AboutContainer>
+      </Wrapper>
+      <Footer />
     </>
   );
 };
@@ -74,7 +82,8 @@ const AboutContainer = styled.div`
   position: absolute;
   left: 700px;
   width: 650px;
-  top: 100px;
+  top: 95px;
+  height: 676px;
 `;
 
 const AboutUs = styled.h1`
@@ -108,8 +117,8 @@ const TeamImageContainer = styled.div`
 `;
 
 const Names = styled.p`
-text-align: center;
-font-weight: 700;
-padding-bottom: 20px;
-`
+  text-align: center;
+  font-weight: 700;
+  padding-bottom: 20px;
+`;
 export default About;

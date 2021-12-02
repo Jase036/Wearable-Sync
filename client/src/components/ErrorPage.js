@@ -8,13 +8,15 @@ import { NavLink } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
+import errorIcon from "../assets/error-icon.png"
+
 const ErrorPage = () => {
   return (
     <>
       <Header />
       <Wrapper>
         <H1>Uh Oh !</H1>
-        <Image src={"../images/error-icon.png"} />
+        <Image src={errorIcon} alt={"Error"}/>
         <H2>Page not found</H2>
         <Paragraph>
           Please refresh the page or click <LinkHome to={"/"}>here</LinkHome> to
