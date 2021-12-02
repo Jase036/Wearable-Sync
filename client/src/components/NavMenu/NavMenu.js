@@ -101,6 +101,7 @@ font-weight:bold;
 
 &:hover{
     color: var(--dusty-rose);
+}
 `;
 
 const DropDownListContainer = styled("div")`

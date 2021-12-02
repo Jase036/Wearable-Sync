@@ -9,9 +9,8 @@ import { RiCloseFill } from "react-icons/ri";
 import { BsSearch } from "react-icons/bs";
 
 const SearchInput = () => {
-  const { state, receiveSearchItemInfoFromServer } = useContext(ItemContext);
+  const { receiveSearchItemInfoFromServer } = useContext(ItemContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchStatus, setSearchStatus] = useState(null);
   let history = useHistory();
 
   const handleSearchChange = (e) => {
@@ -25,9 +24,7 @@ const SearchInput = () => {
       fetch(`/api/searchterm?searchTerm=${searchTerm}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          setSearchStatus(data.status);
-          if (data.status !== 200) {
+            if (data.status !== 200) {
             history.push("/searcherror");
           } else {
             receiveSearchItemInfoFromServer(data.data);
@@ -42,7 +39,6 @@ const SearchInput = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setSearchStatus(data.status);
         receiveSearchItemInfoFromServer(data.data);
         history.push("/search/search");
       });
