@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ItemContext } from "../ItemContext";
 
 
 //styling
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ShoppingCart from "../shoppingCart/ShoppingCart";
 
@@ -14,7 +13,7 @@ import { BsCart3 } from "react-icons/bs";
 
 const Cart = () => {
   const [opened, setOpened] = useState(false);
-
+  const {state} = useContext(ItemContext);
 
   return (
     <>
@@ -34,10 +33,12 @@ const Cart = () => {
       >
         <BsCart3 />
       </CartNav>
-
+      
+      { state.cart?.length > 0 &&
       <Total>
-        <p>3</p>
+        <p>{state.cart.length}</p>
       </Total>
+      }
     </>
   );
 };
