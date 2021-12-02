@@ -23,44 +23,67 @@ const ShoppingCart = ({ checkOut }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+<<<<<<< Updated upstream
         
+=======
+>>>>>>> Stashed changes
         setCartItems(data.data);
       });
   }, [cart]);
 
+<<<<<<< Updated upstream
   // console.log(cartItems);
+=======
+>>>>>>> Stashed changes
 
-  // calc subtotal
-  let subtotal = 0;
-  // subtotal += Number(num).toFixed(2) * item.quantity * 100 / 100;
+  // calc total
+  let total = 0;
+
 
   const checkOutForm = () => {
     history.push("/checkout");
   };
-  // console.log(state)
+
   if (cart.length === 0) {
     return (
       <Wrapper>
         <Title>Cart Summary</Title>
+<<<<<<< Updated upstream
         <h1>your cart is empty</h1>
+=======
+        <h1>Your cart is empty</h1>
+>>>>>>> Stashed changes
       </Wrapper>
     );
   } else {
     return (
       <>
         <Title>Cart Summary</Title>
+        
         {cartItems.map((item) => {
           const itmCost = item.price.slice(1,).split(",").join("");
+<<<<<<< Updated upstream
           // console.log(itmCost)
           subtotal += itmCost * item.quantity
           // console.log(subtotal)
+=======
+          let cartInfo = [];
+          if(state.hasLoaded) {
+              cart.forEach((elem) => {
+                  if (elem.product_id === item._id) {
+                      cartInfo.push(elem);
+                  }
+              })
+          }
+        
+          total += itmCost * cartInfo[0]?.quantity
+>>>>>>> Stashed changes
 
           return <CartItems key={item._id} item={item} cart={cart} />;
         })}
-
         <div>
           <Para>
-            Cart Total : <Span> $0.00 </Span>
+            Cart Total : <Span> ${total.toFixed(2)}</Span>
           </Para>
         </div>
 
@@ -133,6 +156,9 @@ const Title = styled.h1`
   padding: 10px;
   color: #616060;
   font-family:var(--font-family);
+  margin-top: 0;
+  /* border-bottom: 1px solid lightgrey; */
+
 `;
 
 const Wrapper = styled.div`
