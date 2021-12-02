@@ -9,6 +9,9 @@ import CartItems from "./CartItems";
 import styled from "styled-components";
 
 const ShoppingCart = ({ checkOut }) => {
+
+
+  let total = 0;
   let history = useHistory();
 
   const [cartItems, setCartItems] = useState([]);
@@ -23,15 +26,21 @@ const ShoppingCart = ({ checkOut }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+<<<<<<< Updated upstream
         
+=======
+>>>>>>> Stashed changes
         setCartItems(data.data);
       });
   }, [cart]);
 
+<<<<<<< Updated upstream
 
   // calc total
   let total = 0;
 
+=======
+>>>>>>> Stashed changes
 
   const checkOutForm = () => {
     history.push("/checkout");
@@ -59,9 +68,11 @@ const ShoppingCart = ({ checkOut }) => {
                   }
               })
           }
-        
           total += itmCost * cartInfo[0]?.quantity
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
           return <CartItems key={item._id} item={item} cart={cart} />;
         })}
         <div>
@@ -69,7 +80,6 @@ const ShoppingCart = ({ checkOut }) => {
             Cart Total : <Span> ${total.toFixed(2)}</Span>
           </Para>
         </div>
-
         {checkOut !== true ? (
           <div>
             <Button onClick={clearPurchase}>Clear</Button>
@@ -140,7 +150,6 @@ const Title = styled.h1`
   color: #616060;
   font-family:var(--font-family);
   margin-top: 0;
-  /* border-bottom: 1px solid lightgrey; */
 
 `;
 

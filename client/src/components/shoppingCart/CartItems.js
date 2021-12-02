@@ -31,11 +31,9 @@ const CartItems = ({item, cart}) => {
                     <Name>{item.name}</Name>
                 </NameWrapper>
                     <Qtypara>QTY</Qtypara>
-                {/* <QTYToggler> */}
                     <OrderQTY>{cartInfo[0]?.quantity}</OrderQTY>
                     <StyledBtn onClick={() => addQuantity(cartInfo)} disabled={disabledAdd} > + </StyledBtn>
                     <StyledBtn onClick={() => lowerQuantity(cartInfo)} disabled={disabledLower}> - </StyledBtn>
-                {/* </QTYToggler> */}
                     <PricePara>{item.price}</PricePara>
                     <RemoveBtn onClick={() => removePurchase(cartInfo)}>Remove</RemoveBtn>
         </Wrapper>
@@ -113,17 +111,11 @@ box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px
 
 `;
 
-const QTYToggler = styled.div`
-display: inline-block;
-margin: 3px;
-width: 15%;
-`;
 
 const OrderQTY = styled.span`
 font-size: 12px;
 font-weight: bolder;
 padding: 5px;
-/* margin: auto; */
 
 `;
 

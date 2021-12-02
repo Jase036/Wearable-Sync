@@ -30,9 +30,7 @@ const Cart = () => {
       ) : null}
 
       <CartNav
-        onClick={() => {
-          setOpened(true);
-        }}
+        onClick={() => {setOpened(true)}}
       >
         <BsCart3 />
       </CartNav>
