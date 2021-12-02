@@ -62,12 +62,6 @@ function reducer(state, action) {
       };
     }
     
-    case "remove-from-shopping-cart": {
-      return {
-        ...state, 
-        cart: action.cart,
-      }
-    }
 
     default:
       throw new Error(`Unrecognized action: ${action.type}`);
@@ -120,8 +114,11 @@ export const ItemProvider = ({ children }) => {
       updateArray = [...state.cart].map((item) => {
         if(item.product_id === data[0].product_id) {
           return {...item, quantity: item.quantity + 1} 
-        }})}
-        
+        }
+      })
+    }
+      window.localStorage.setItem("cart", JSON.stringify(updateArray))  
+
     dispatch({
       type: "add-to-shopping-cart",
       cart: updateArray
@@ -161,6 +158,10 @@ export const ItemProvider = ({ children }) => {
   useEffect(() => {
     const limit = 20;
     let skip = 20 * paginationIndex;
+    const cartStorage = window.localStorage.getItem('cart')
+    if (cartStorage) {
+      addPurchase(JSON.parse(cartStorage))
+    }
 
     setLoadingState();
     fetch(`/api/all-products?skip=${skip}&limit=${limit}`)
@@ -173,7 +174,7 @@ export const ItemProvider = ({ children }) => {
           unsetLoadingState();
         }
       });
-  }, [paginationIndex]); // We want the fetch to run when the paginationIndex changes
+  }, [paginationIndex]); // eslint-disable-line
 
   return (
     <ItemContext.Provider
@@ -189,7 +190,6 @@ export const ItemProvider = ({ children }) => {
         unsetLoadingState,
         receiveCategoryItemInfoFromServer,
         receiveSearchItemInfoFromServer,
-        addPurchase
       }}
     >
       {children}

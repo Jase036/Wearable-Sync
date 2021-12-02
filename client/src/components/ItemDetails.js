@@ -22,8 +22,8 @@ const ItemDetails = () => {
 //         localStorage.setItem("cartSummary", JSON.stringify([]));
 // }
     
-    // const {itemId, name, price } = cartItem ;
-
+    
+    
     // Fetch product by Id
 
     useEffect(() => {
@@ -103,10 +103,8 @@ const ItemDetails = () => {
                         {selectedItem.numInStock > 0 ? (
                             selectedItem.numInStock && (
                                 <>
-                                <PriceSpan>{selectedItem.price}</PriceSpan>
-                                <Link to='/shopping-cart'>
-                                <StyledBtn onClick={() => addPurchase([{product_id: selectedItem._id, quantity: 1 }])}><span>Add to Cart</span></StyledBtn>
-                                </Link>
+                                    <PriceSpan>{selectedItem.price}</PriceSpan>
+                                    <StyledBtn onClick={() => addPurchase([{product_id: selectedItem._id, quantity: 1 }])}><span>Add to Cart</span></StyledBtn>
                                 </>
                                 ) 
                                 ) : (

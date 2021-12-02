@@ -16,15 +16,31 @@ const ShoppingCart = () => {
   const { state, clearPurchase } = useContext(ItemContext);
   const {cart} = state;
 
+  // useEffect(() => {
+  //   let index = cart.length === 0 ? 0 : cart.length - 1;
+  //   fetch(`/api/product/${cart[index].product_id}`)
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     console.log(data.data)
+  //     setCartItems([...cartItems].push(data.data))
+  //   })
+  // },[cart])
+
   useEffect(() => {
-    let index = cart.length === 0 ? 0 : cart.length - 1;
-    fetch(`/api/product/${cart[index].product_id}`)
+    fetch('/api/cart-items/',
+    {
+      method: 'POST',
+      body: JSON.stringify(cart),
+      headers: {'Content-Type': 'application/json'}
+      })
+
     .then((res) => res.json())
     .then((data) => {
-      console.log(data)
-      setCartItems([...cartItems].concat(data.data))
-    })
-  },[cart])
+      console.log(data.data)
+      setCartItems(data.data)
+      })
+    },[cart])
+  
 
   console.log(cartItems)
 
@@ -50,7 +66,7 @@ const ShoppingCart = () => {
     return (
       <>
         <Title>Cart Summary</Title>
-      {cart.map((item)=> {
+      {cartItems.map((item)=> {
           return(<CartItems key={item.id} item={item}/>)
       })}
 

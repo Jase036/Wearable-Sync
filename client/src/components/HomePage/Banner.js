@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 
 //styling
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import banner from "../../assets/banner1.jpeg";
 import Carousel from "react-elastic-carousel";
 
