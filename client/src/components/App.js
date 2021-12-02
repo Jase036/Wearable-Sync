@@ -39,6 +39,10 @@ function App() {
           <Route exact path="/checkout">
             <CheckOutForm />
           </Route>
+          <Route exact path="/shopping-cart">
+            <ShoppingCart/>
+          </Route>
+
 
           <Route path="/error">
             <ErrorPage />
