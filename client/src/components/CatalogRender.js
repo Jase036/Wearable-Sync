@@ -10,7 +10,8 @@ import styled from "styled-components";
 
 
 const CatalogRender = () => {
-  const { state, paginationIndex, setPaginationIndex} = useContext(ItemContext);
+  const { state, paginationIndex, setPaginationIndex } =
+    useContext(ItemContext);
   const type = useParams().type;
   let history = useHistory();
   
@@ -19,9 +20,9 @@ const CatalogRender = () => {
   if(type === "category" && state.categoryItems.length > 0 ){
     itemArray = state.categoryItems
   } else if (type === "search" && state.searchItems.length > 0) {
-    itemArray = state.searchItems
+    itemArray = state.searchItems;
   } else {
-    itemArray = state.items
+    itemArray = state.items;
   }
 
 
@@ -57,9 +58,17 @@ const CatalogRender = () => {
                 <Para>{item.name}</Para>
                 <ProductImg alt="product" src={item.imageSrc} />
                 <Overlay>
-                  {item.numInStock !==0 ? 
-                  <Button onClick={(ev)=>{handleClick(ev,item)}}  >Add to cart</Button> :
-                  <p>Out of stock</p>}
+                  {item.numInStock !== 0 ? (
+                    <Button
+                      onClick={(ev) => {
+                        handleClick(ev, item);
+                      }}
+                    >
+                      Add to cart
+                    </Button>
+                  ) : (
+                    <OutOfStock>Out of stock</OutOfStock>
+                  )}
                 </Overlay>
               </ProductContainer>
             );
@@ -77,19 +86,20 @@ const CatalogRender = () => {
   }
 };
 
-
 const Button = styled.div`
 z-index: 49;
 cursor:pointer;
 height:20px;
-
-
+position: absolute;
+top: 360px;
+left: 150px;
+cursor: pointer;
+font-weight: 700;
 ` 
-
 
 const Overlay = styled.div`
   position: absolute;
-  display:flex;
+  display: flex;
   top: 0;
   bottom: 0;
   left: 0;
@@ -100,7 +110,7 @@ const Overlay = styled.div`
   z-index: 40;
   transition: 0.5s ease;
   background-color: rgb(211, 186, 177, 0);
-  border-radius:20px;
+  border-radius: 20px;
 `;
 
 const Para = styled.p`
@@ -118,19 +128,25 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 30px;
+  position: relative;
+  font-family: var(--font-family);
 `;
 const ProductContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 400px;
   height: 400px;
   padding: 50px;
   position: relative;
   border-radius:20px;
+  text-decoration: none;
+  color: black;
+  margin-bottom: 30px;
 
   &:hover div {
     box-shadow: 0 0 5px #ddd;
     background-color: rgb(211, 186, 177, 0.5);
-    }
-  
+  }
 `;
 const ProductImg = styled.img`
   width: 200px;
@@ -145,5 +161,22 @@ const PaginationContainer = styled.div`
 const PaginationButton = styled.button`
   padding: 10px;
   border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  font-size: 20px;
+  &:hover{
+    transition: all 0.3s ease-in-out;
+    background-color: var(--cool-gray);
+    color: white;
+  }
 `;
+
+const OutOfStock = styled.p`
+  position: absolute;
+  top: 360px;
+  left: 150px;
+  font-weight: 700;
+  `;
+
 export default CatalogRender;
